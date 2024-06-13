@@ -1,8 +1,21 @@
+using DataAcquisitionService.Repository.IRepository;
+using DataAcquisitionService.Repository;
+using DataAcquisitionService.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+builder.Services.AddScoped<IUnitofWork,UnitOfWork>();
+builder.Services.AddScoped<ISecurityRepository,SecurityRepository>();
+builder.Services.AddScoped<ICorporateAnnouncementRepository,CorporateAnnouncementRepository>();
+builder.Services.AddDbContext<AppDbContext>(option =>
+{
+    option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+}
+);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
