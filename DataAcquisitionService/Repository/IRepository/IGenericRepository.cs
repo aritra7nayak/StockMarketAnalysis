@@ -1,4 +1,6 @@
-﻿namespace DataAcquisitionService.Repository.IRepository
+﻿using DataAcquisitionService.Models;
+
+namespace DataAcquisitionService.Repository.IRepository
 {
     public interface IGenericRepository<T> where T : class
     {

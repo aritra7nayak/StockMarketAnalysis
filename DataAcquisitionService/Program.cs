@@ -2,12 +2,16 @@ using DataAcquisitionService.Repository.IRepository;
 using DataAcquisitionService.Repository;
 using DataAcquisitionService.Data;
 using Microsoft.EntityFrameworkCore;
+using DataAcquisitionService.Services.IService;
+using DataAcquisitionService.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+builder.Services.AddScoped<ISecurityService, SecurityService>();
+builder.Services.AddScoped<ICorporateAnnouncementService, CorporateAnnouncementService>();
 builder.Services.AddScoped<IUnitofWork,UnitOfWork>();
 builder.Services.AddScoped<ISecurityRepository,SecurityRepository>();
 builder.Services.AddScoped<ICorporateAnnouncementRepository,CorporateAnnouncementRepository>();
