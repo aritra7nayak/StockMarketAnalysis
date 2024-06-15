@@ -12,9 +12,11 @@ builder.Services.AddHttpClient();
 builder.Services.AddHttpClient<IAuthService, AuthService>();
 
 SD.AuthAPIBase = builder.Configuration["ServiceUrls:AuthAPI"];
+SD.DataAcquisition = builder.Configuration["ServiceUrls:DataAcquisition"];
 
 
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<ISecurityService, SecurityService>();
 builder.Services.AddScoped<ITokenProvider, TokenProvider>();
 
 builder.Services.AddScoped<IBaseService, BaseService>();

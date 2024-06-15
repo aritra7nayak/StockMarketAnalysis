@@ -26,8 +26,16 @@ namespace DataAcquisitionService.Services
 
         public async Task AddSecurityAsync(Security security)
         {
-            await _unitOfWork.securityRepository.AddAsync(security);
-            await _unitOfWork.SaveChangesAsync();
+            try
+            {
+
+                await _unitOfWork.securityRepository.AddAsync(security);
+                await _unitOfWork.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
         public async Task UpdateSecurityAsync(Security security)
@@ -46,9 +54,9 @@ namespace DataAcquisitionService.Services
             }
         }
 
-        public async Task<IEnumerable<Security>> GetFilteredSecurityAsync(string name, string symbol)
+        public async Task<IEnumerable<Security>> GetFilteredSecurityAsync(string name)
         {
-            return await _unitOfWork.securityRepository.GetFilteredSecurityAsync(name, symbol);
+            return await _unitOfWork.securityRepository.GetFilteredSecurityAsync(name);
         }
 
         public async Task<IEnumerable<Security>> GetAllSecuritysAsync()

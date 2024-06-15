@@ -12,19 +12,16 @@ namespace DataAcquisitionService.Repository
         {
         }
 
-        public async Task<IEnumerable<Security>> GetFilteredSecurityAsync(string name, string symbol)
+        public async Task<IEnumerable<Security>> GetFilteredSecurityAsync(string name)
         {
             var query = _dbSet.AsQueryable();
 
             if (!string.IsNullOrEmpty(name))
             {
-                query = query.Where(c => c.Name.Contains(name));
+                query = query.Where(c => c.Name.Contains(name) || c.Symbol.Contains(name));
             }
 
-            if (!string.IsNullOrEmpty(symbol))
-            {
-                query = query.Where(c => c.Symbol.Contains(symbol));
-            }
+            
 
             return await query.ToListAsync();
         }

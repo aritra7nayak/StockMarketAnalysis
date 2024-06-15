@@ -10,6 +10,6 @@ namespace DataAcquisitionService.Services.IService
         Task AddSecurityAsync(Security security);
         Task UpdateSecurityAsync(Security security);
         Task DeleteSecurityAsync(int id);
-        Task<IEnumerable<Security>> GetFilteredSecurityAsync(string name, string symbol);
+        Task<IEnumerable<Security>> GetFilteredSecurityAsync(string name);
     }
 }

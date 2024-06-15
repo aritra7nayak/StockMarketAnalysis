@@ -1,0 +1,54 @@
+﻿@model Security
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Security</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Symbol)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Symbol)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Series)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Series)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ListingDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ListingDate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.MarketLot)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.MarketLot)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.SecurityType)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.SecurityType)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.ID" class="btn btn-primary">Edit</a> |
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+</div>

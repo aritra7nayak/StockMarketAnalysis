@@ -1,116 +1,135 @@
-﻿using DataAcquisitionService.Models;
+﻿using DataAcquisitionService.Dtos;
+using DataAcquisitionService.Models;
 using DataAcquisitionService.Services.IService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Stripe;
 
 namespace DataAcquisitionService.Controllers
 {
-    public class SecurityController : Controller
+    [Route("api/DataAcquisition/Security")]
+    [ApiController]
+    [Authorize]
+    public class SecurityController : ControllerBase
     {
         private readonly ISecurityService _securityService;
+        private ResponseDto _response;
 
         public SecurityController(ISecurityService securityService)
         {
             _securityService = securityService;
+            _response = new ResponseDto();
         }
 
+        [HttpGet]
+        [Route("GetAllSecurities")]
         // GET: SecurityController
-        public async Task<IActionResult> Index(string name, string symbol)
+        public async Task<ResponseDto> GetAllSecurities()
         {
-            var customers = await _securityService.GetFilteredSecurityAsync(name, symbol);
-            return View(customers);
+            try
+            {
+                IEnumerable<Security> objList = await _securityService.GetAllSecuritysAsync();
+                _response.Result = objList;
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.Message = ex.Message;
+            }
+            return _response;
+        }
+
+        [HttpGet]
+        [Route("GetSecuritiesbyNameorSymbolAsync/{name}")]
+        // GET: SecurityController
+        public async Task<ResponseDto> GetSecuritiesbyNameorSymbolAsync(string name)
+        {
+            try
+            {
+                IEnumerable<Security> objList = await _securityService.GetFilteredSecurityAsync(name);
+                _response.Result = objList;
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.Message = ex.Message;
+            }
+            return _response;
+        }
+
+        [HttpGet]
+        [Route("GetSecurityById/{id}")]
+        // GET: SecurityController
+        public async Task<ResponseDto> GetSecurityById(int id)
+        {
+            try
+            {
+                Security objList = await _securityService.GetSecurityByIdAsync(id);
+                _response.Result = objList;
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.Message = ex.Message;
+            }
+            return _response;
         }
 
         // GET: SecurityController/Details/5
-        public async Task<ActionResult> Details(int id)
-        {
-            var security = await _securityService.GetSecurityByIdAsync(id);
-            if (security == null)
-            {
-                return NotFound();
-            }
-            return View(security);
-        }
-
-        // GET: SecurityController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
+        //public async Task<ActionResult> Details(int id)
+        //{
+        //    var security = await _securityService.GetSecurityByIdAsync(id);
+        //    if (security == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    return View(security);
+        //}
 
         // POST: SecurityController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(Security security)
+        [HttpPost("Create")]
+        public async Task<ResponseDto> Create([FromBody] Security security)
         {
             security.CreatedBy = User.Identity.Name;
             security.ModifiedBy = User.Identity.Name;
             try
             {
-                if (ModelState.IsValid)
-                {
-                    await _securityService.AddSecurityAsync(security);
-                    return RedirectToAction(nameof(Index));
-                }
-                return View(security);
-            }
-            catch
-            {
-                return View();
-            }
-        }
+                await _securityService.AddSecurityAsync(security);
 
-        // GET: SecurityController/Edit/5
-        public async Task<ActionResult> Edit(int id)
-        {
-            var security = await _securityService.GetSecurityByIdAsync(id);
-            if (security == null)
-            {
-                return NotFound();
+
+                _response.Result = security;
             }
-            return View(security);
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.Message = ex.Message;
+            }
+            return _response;
         }
 
         // POST: SecurityController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(int id, Security security)
+        [HttpPost("Edit")]
+        public async Task<ResponseDto> Edit(Security security)
         {
             security.ModifiedBy = User.Identity.Name;
             try
-            {
-                if (id != security.ID)
-                {
-                    return BadRequest();
-                }
+            {                              
+                await _securityService.UpdateSecurityAsync(security);
 
-                if (ModelState.IsValid)
-                {
-                    await _securityService.UpdateSecurityAsync(security);
-                    return RedirectToAction(nameof(Index));
-                }
-                return View(security);
+                _response.Result = security;
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                _response.IsSuccess = false;
+                _response.Message = ex.Message;
             }
+            return _response;
         }
 
-        // GET: SecurityController/Delete/5
-        public async Task<ActionResult> Delete(int id)
-        {
-            var security = await _securityService.GetSecurityByIdAsync(id);
-            if (security == null)
-            {
-                return NotFound();
-            }
-            return View(security);
-        }
 
         // POST: SecurityController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Delete(int id, IFormCollection collection)
+        [HttpPost("Delete/{id}")]
+        public async Task<ResponseDto> Delete(int id)
         {
             try
             {
@@ -119,12 +138,14 @@ namespace DataAcquisitionService.Controllers
                 {
                     await _securityService.DeleteSecurityAsync(id);
                 }
-                return RedirectToAction(nameof(Index));
+                
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                _response.IsSuccess = false;
+                _response.Message = ex.Message;
             }
+            return _response;
         }
     }
 }
