@@ -17,6 +17,7 @@ SD.DataAcquisition = builder.Configuration["ServiceUrls:DataAcquisition"];
 
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ISecurityService, SecurityService>();
+builder.Services.AddScoped<ISecurityRunService, SecurityRunService>();
 builder.Services.AddScoped<ITokenProvider, TokenProvider>();
 
 builder.Services.AddScoped<IBaseService, BaseService>();

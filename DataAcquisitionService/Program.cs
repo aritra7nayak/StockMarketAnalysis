@@ -14,9 +14,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<ISecurityService, SecurityService>();
+builder.Services.AddScoped<ISecurityRunService, SecurityRunService>();
 builder.Services.AddScoped<ICorporateAnnouncementService, CorporateAnnouncementService>();
 builder.Services.AddScoped<IUnitofWork,UnitOfWork>();
 builder.Services.AddScoped<ISecurityRepository,SecurityRepository>();
+builder.Services.AddScoped<ISecurityRunRepository,SecurityRunRepository>();
 builder.Services.AddScoped<ICorporateAnnouncementRepository,CorporateAnnouncementRepository>();
 builder.Services.AddDbContext<AppDbContext>(option =>
 {

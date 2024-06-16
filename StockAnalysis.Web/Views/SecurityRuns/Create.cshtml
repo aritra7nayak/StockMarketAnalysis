@@ -1,0 +1,67 @@
+﻿@model SecurityRunDto
+
+@{
+    ViewData["Title"] = "Create Security Run";
+}
+
+<h2>Create</h2>
+
+<h4>SecurityRunDto</h4>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="Date" class="control-label"></label>
+                <input asp-for="Date" class="form-control" />
+                <span asp-validation-for="Date" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="SourceType" class="control-label"></label>
+                <select asp-for="SourceType" class="form-control" asp-items="Html.GetEnumSelectList<SourceTypeEnum>()"></select>
+                <span asp-validation-for="SourceType" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ProcessType" class="control-label"></label>
+                <select asp-for="ProcessType" class="form-control" asp-items="Html.GetEnumSelectList<ProcessTypeEnum>()"></select>
+                <span asp-validation-for="ProcessType" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="InsertType" class="control-label"></label>
+                <select asp-for="InsertType" class="form-control" asp-items="Html.GetEnumSelectList<InsertTypeEnum>()"></select>
+                <span asp-validation-for="InsertType" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="FilePath" class="control-label"></label>
+                <input asp-for="FilePath" class="form-control" type="file" accept=".pdf,.csv" name="File" />
+                <span asp-validation-for="FilePath" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ErrorMessage" class="control-label"></label>
+                <input asp-for="ErrorMessage" class="form-control" />
+                <span asp-validation-for="ErrorMessage" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

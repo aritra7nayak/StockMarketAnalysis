@@ -12,6 +12,7 @@ namespace DataAcquisitionService.Repository
         {
             _appDbContext = appDbContext;
             securityRepository = new SecurityRepository(appDbContext);
+            securityRunRepository = new SecurityRunRepository(appDbContext);
             corporateAnnouncementRepository = new CorporateAnnouncementRepository(appDbContext);
 
         }

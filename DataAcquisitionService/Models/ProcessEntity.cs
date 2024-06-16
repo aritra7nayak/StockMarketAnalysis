@@ -15,6 +15,9 @@ namespace DataAcquisitionService.Models
 
         [UIHint("File")]
         public string? FilePath { get; set;}
+
+        [UIHint("File")]
+        public string? ErrorFilePath { get; set; }
         public string? ErrorMessage { get; set;}
 
     }
