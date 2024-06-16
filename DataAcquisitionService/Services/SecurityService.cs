@@ -40,9 +40,15 @@ namespace DataAcquisitionService.Services
 
         public async Task UpdateSecurityAsync(Security security)
         {
+            try { 
             await _unitOfWork.securityRepository.UpdateAsync(security);
             await _unitOfWork.SaveChangesAsync();
         }
+            catch (Exception ex)
+            {
+
+            }
+}
 
         public async Task DeleteSecurityAsync(int id)
         {

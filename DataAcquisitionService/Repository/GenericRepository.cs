@@ -47,5 +47,17 @@ namespace DataAcquisitionService.Repository
                 await _context.SaveChangesAsync();
             }
         }
+
+        public async Task DeleteForParent<TChild>(int parentId) where TChild : class
+        {
+            var parentEntity = await _context.Set<T>().FindAsync(parentId);
+            if (parentEntity != null)
+            {
+                var childEntities = await _context.Set<TChild>().Where(c => EF.Property<int>(c, "ParentId") == parentId).ToListAsync();
+                _context.Set<TChild>().RemoveRange(childEntities);
+                _context.Set<T>().Remove(parentEntity);
+                await _context.SaveChangesAsync();
+            }
+        }
     }
 }

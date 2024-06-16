@@ -88,8 +88,16 @@ namespace DataAcquisitionService.Controllers
 
         // POST: SecurityController/Create
         [HttpPost("Create")]
-        public async Task<ResponseDto> Create([FromBody] Security security)
+        public async Task<ResponseDto> Create([FromBody] SecurityDTO securityDto)
         {
+            Security security = new();
+
+            security.Name = securityDto.Name;
+            security.Symbol = securityDto.Symbol;
+            security.Series = securityDto.Series;
+            security.ListingDate = securityDto.ListingDate;
+            security.MarketLot = securityDto.MarketLot;
+            security.SecurityType = securityDto.SecurityType;
             security.CreatedBy = User.Identity.Name;
             security.ModifiedBy = User.Identity.Name;
             try
@@ -109,8 +117,17 @@ namespace DataAcquisitionService.Controllers
 
         // POST: SecurityController/Edit/5
         [HttpPost("Edit")]
-        public async Task<ResponseDto> Edit(Security security)
+        public async Task<ResponseDto> Edit(SecurityDTO securityDto)
         {
+            Security security = new();
+
+            security.Name = securityDto.Name;
+            security.ID = securityDto.ID;
+            security.Symbol = securityDto.Symbol;
+            security.Series = securityDto.Series;
+            security.ListingDate = securityDto.ListingDate;
+            security.MarketLot = securityDto.MarketLot;
+            security.SecurityType = securityDto.SecurityType;
             security.ModifiedBy = User.Identity.Name;
             try
             {                              

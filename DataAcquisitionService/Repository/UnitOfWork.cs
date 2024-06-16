@@ -17,6 +17,7 @@ namespace DataAcquisitionService.Repository
         }
 
         public ISecurityRepository securityRepository { get; private set; }
+        public ISecurityRunRepository securityRunRepository { get; private set; }
         public ICorporateAnnouncementRepository corporateAnnouncementRepository { get; private set; }
 
         public async Task<int> SaveChangesAsync()

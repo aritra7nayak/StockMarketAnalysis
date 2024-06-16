@@ -6,6 +6,8 @@ namespace DataAcquisitionService.Models
     public class Security:LogEntity
     {
         public int ID { get; set; }
+
+        public int? SecurityRunID { get; set; }
         public string Name { get; set; }
         public string Symbol { get; set; }
         public string Series {  get; set; }
@@ -16,7 +18,10 @@ namespace DataAcquisitionService.Models
 
         public SecurityTypeEnum? SecurityType { get; set; }
 
+        public virtual SecurityRun SecurityRun { get; set; }
     }
+
+    
 
     public enum SecurityTypeEnum
     {

@@ -1,9 +1,9 @@
-﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
+﻿using DataAcquisitionService.Models;
+using System.ComponentModel;
 
-namespace StockAnalysis.Web.Models
+namespace DataAcquisitionService.Dtos
 {
-    public class Security : LogEntity
+    public class SecurityDTO
     {
         public int ID { get; set; }
 
@@ -17,13 +17,5 @@ namespace StockAnalysis.Web.Models
         public int? MarketLot { get; set; }
 
         public SecurityTypeEnum? SecurityType { get; set; }
-
-    }
-
-    public enum SecurityTypeEnum
-    {
-        Equity = 1,
-        SME = 2,
-        Index = 3
     }
 }

@@ -80,7 +80,7 @@ namespace StockAnalysis.Web.Controllers
 
                 if (response != null && response.IsSuccess)
                 {
-                    TempData["success"] = "Coupon Created Successfully";
+                    TempData["success"] = "Security Created Successfully";
 
                     return RedirectToAction(nameof(Index));
                 }
