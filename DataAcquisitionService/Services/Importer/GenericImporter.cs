@@ -18,15 +18,15 @@ namespace DataAcquisitionService.Services.Importer
             ProcessData();
         }
 
-        public void ProcessData()
+        public virtual void ProcessData()
         {
         }
 
-        public void RetriveFile()
+        public virtual void RetriveFile()
         {
         }
 
-        public void ConfigureImporter()
+        public virtual void ConfigureImporter()
         {            
         }
         public class ColumnInfo
@@ -77,7 +77,7 @@ namespace DataAcquisitionService.Services.Importer
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error: {ex.Message}");
+                
             }
 
             return dataTable;

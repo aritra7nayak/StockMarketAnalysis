@@ -2,7 +2,6 @@
 {
     public class SecurityRunDto :LogEntity
     {
-
         public int Id { get; set; }
         public byte[]? FileStream { get; set; }
         public DateTime Date { get; set; }

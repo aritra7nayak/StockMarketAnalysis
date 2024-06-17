@@ -16,7 +16,6 @@ namespace DataAcquisitionService.Dtos
         public int? RowsDeleted { get; set; }
         public int? RowsWarning { get; set; }
 
-        [UIHint("File")]
         public string? FilePath { get; set; }
         public string? ErrorFilePath { get; set; }
         public string? ErrorMessage { get; set; }

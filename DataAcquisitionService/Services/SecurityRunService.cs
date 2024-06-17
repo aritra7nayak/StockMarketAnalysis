@@ -1,6 +1,7 @@
 ﻿using DataAcquisitionService.Dtos.FilterDto;
 using DataAcquisitionService.Models;
 using DataAcquisitionService.Repository.IRepository;
+using DataAcquisitionService.Services.Importer;
 using DataAcquisitionService.Services.IService;
 
 namespace DataAcquisitionService.Services
@@ -26,8 +27,16 @@ namespace DataAcquisitionService.Services
             {
 
             }
+            try
+            {
+                SecurityImporter securityImporter = new SecurityImporter(securityRun);
+                securityImporter.InitiateProcess();
+               
+            }
+            catch (Exception ex)
+            {
 
-
+            }
 
         }
     

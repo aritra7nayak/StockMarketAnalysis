@@ -85,10 +85,29 @@ namespace StockAnalysis.Web.Controllers
                     }
                     securityRunDto.FilePath = filePath;
                 }
+                try
+                {
+                    ResponseDto? response = await _securityRunService.AddSecurityRunAsync(securityRunDto);
+
+                    if (response != null && response.IsSuccess)
+                    {
+                        TempData["success"] = "SecurityRun Created Successfully";
+
+                        return RedirectToAction(nameof(Index));
+                    }
+                    else
+                    {
+                        TempData["error"] = response?.Message;
+                    }
+                }
+                catch
+                {
+                    return View();
+                }
+                return View();
 
 
 
-                
             }
             return View(securityRunDto);
         }
