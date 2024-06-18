@@ -1,4 +1,5 @@
 ﻿using DataAcquisitionService.Models;
+using DataAcquisitionService.Repository.IRepository;
 using System.Data;
 
 namespace DataAcquisitionService.Services.Importer
@@ -7,11 +8,13 @@ namespace DataAcquisitionService.Services.Importer
     {
         private readonly SecurityRun _securityRun;
         public List<ColumnInfo> columnInfos;
+        private readonly IUnitofWork _unitOfWork;
 
-        public SecurityImporter(SecurityRun securityRun)
+        public SecurityImporter(SecurityRun securityRun, IUnitofWork unitOfWork)
         {
             _securityRun = securityRun;
             columnInfos = new List<ColumnInfo>();
+            _unitOfWork = unitOfWork;
         }
 
         public override void ConfigureImporter()
@@ -49,9 +52,10 @@ namespace DataAcquisitionService.Services.Importer
             File.WriteAllBytes(FilePath, _securityRun.FileStream);
         }
 
-        public override void ProcessData()
+        public async override void ProcessData()
         {
             DataTable dataTable = ConvertCsvToDataTable(FilePath, columnInfos);
+            SecurityRun securityRun = await _unitOfWork.securityRunRepository.ProcessSecuritiesAsync(_securityRun, dataTable);
         }
     }
 }
