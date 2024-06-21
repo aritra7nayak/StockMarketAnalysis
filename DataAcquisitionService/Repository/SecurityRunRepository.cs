@@ -1,30 +1,39 @@
-﻿using DataAcquisitionService.Data;
+﻿using System.Data;
+using System.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 using DataAcquisitionService.Models;
+using DataAcquisitionService.Data;
 using DataAcquisitionService.Repository.IRepository;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace DataAcquisitionService.Repository
 {
     public class SecurityRunRepository : GenericRepository<SecurityRun>, ISecurityRunRepository
     {
-        private readonly AppDbContext _context;
 
         public SecurityRunRepository(AppDbContext context) : base(context)
         {
-            _context = context;
         }
 
-        public async Task<SecurityRun> ProcessSecuritiesAsync(SecurityRun securityRun ,DataTable securitiesTable)
+        public async Task<SecurityRun> ProcessSecuritiesAsync(SecurityRun securityRun, DataTable securitiesTable)
         {
-            var connection = (SqlConnection)_context.Database.GetDbConnection();
-            await using (connection)
+            await using var transaction = await _context.Database.BeginTransactionAsync();
+            try
             {
-                await connection.OpenAsync();
-
-                using (var command = connection.CreateCommand())
+                // Get the connection from the context and open it if not already open
+                var connection = (SqlConnection)_context.Database.GetDbConnection();
+                if (connection.State != ConnectionState.Open)
                 {
+                    await connection.OpenAsync();
+                }
+
+                await using (var command = connection.CreateCommand())
+                {
+                    command.Transaction = (SqlTransaction)transaction.GetDbTransaction();
                     command.CommandText = "dbo.spSecurityImporter";
                     command.CommandType = CommandType.StoredProcedure;
 
@@ -58,13 +67,20 @@ namespace DataAcquisitionService.Repository
 
                     // Retrieve output parameter values
                     securityRun.RowsAdded = (int)rowsAddedParam.Value;
-                    securityRun.RowsUpdated = (int)totalRowsParam.Value;
+                    securityRun.RowsTotal = (int)totalRowsParam.Value;
                     securityRun.RowsUpdated = (int)rowsUpdatedParam.Value;
                     securityRun.RowsDeleted = (int)rowsDeletedParam.Value;
-
-                    return securityRun;
                 }
+
+                await transaction.CommitAsync();
             }
+            catch (Exception)
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
+
+            return securityRun;
         }
     }
 }

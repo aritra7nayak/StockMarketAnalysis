@@ -3,6 +3,7 @@ using DataAcquisitionService.Models;
 using DataAcquisitionService.Repository.IRepository;
 using DataAcquisitionService.Services.Importer;
 using DataAcquisitionService.Services.IService;
+using System.Data;
 
 namespace DataAcquisitionService.Services
 {
@@ -31,7 +32,11 @@ namespace DataAcquisitionService.Services
             {
                 SecurityImporter securityImporter = new SecurityImporter(securityRun);
                 securityImporter.InitiateProcess();
-               
+                DataTable dataTable = securityImporter.GetDataTable();
+                securityRun =await _unitOfWork.securityRunRepository.ProcessSecuritiesAsync(securityRun, dataTable);
+                await _unitOfWork.securityRunRepository.UpdateAsync(securityRun);
+                await _unitOfWork.SaveChangesAsync();
+
             }
             catch (Exception ex)
             {
@@ -43,7 +48,7 @@ namespace DataAcquisitionService.Services
 
         public async Task DeleteSecurityRunAsync(int id)
         {
-            await _unitOfWork.securityRunRepository.DeleteForParent<Security>(id);
+            await _unitOfWork.securityRunRepository.DeleteForParent<Security>(id,"SecurityRunID");
         }
 
         public async Task<IEnumerable<SecurityRun>> GetAllSecurityRunsAsync()

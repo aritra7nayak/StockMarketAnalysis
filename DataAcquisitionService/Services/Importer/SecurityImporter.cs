@@ -8,13 +8,12 @@ namespace DataAcquisitionService.Services.Importer
     {
         private readonly SecurityRun _securityRun;
         public List<ColumnInfo> columnInfos;
-        private readonly IUnitofWork _unitOfWork;
+        DataTable _dataTable;
 
-        public SecurityImporter(SecurityRun securityRun, IUnitofWork unitOfWork)
+        public SecurityImporter(SecurityRun securityRun)
         {
             _securityRun = securityRun;
             columnInfos = new List<ColumnInfo>();
-            _unitOfWork = unitOfWork;
         }
 
         public override void ConfigureImporter()
@@ -54,8 +53,12 @@ namespace DataAcquisitionService.Services.Importer
 
         public async override void ProcessData()
         {
-            DataTable dataTable = ConvertCsvToDataTable(FilePath, columnInfos);
-            SecurityRun securityRun = await _unitOfWork.securityRunRepository.ProcessSecuritiesAsync(_securityRun, dataTable);
+            _dataTable = ConvertCsvToDataTable(FilePath, columnInfos);
+        }
+
+        public DataTable GetDataTable()
+        {
+            return _dataTable;
         }
     }
 }

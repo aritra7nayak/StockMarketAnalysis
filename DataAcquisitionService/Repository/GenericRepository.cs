@@ -6,7 +6,7 @@ namespace DataAcquisitionService.Repository
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
-        private readonly AppDbContext _context;
+        public readonly AppDbContext _context;
         public readonly DbSet<T> _dbSet;
 
         public GenericRepository(AppDbContext context)
@@ -48,16 +48,21 @@ namespace DataAcquisitionService.Repository
             }
         }
 
-        public async Task DeleteForParent<TChild>(int parentId) where TChild : class
+        public async Task DeleteForParent<TChild>(int parentId, string parentIdFieldName) where TChild : class
         {
             var parentEntity = await _context.Set<T>().FindAsync(parentId);
             if (parentEntity != null)
             {
-                var childEntities = await _context.Set<TChild>().Where(c => EF.Property<int>(c, "ParentId") == parentId).ToListAsync();
+                var childEntities = await _context.Set<TChild>()
+                                                  .Where(c => EF.Property<int>(c, parentIdFieldName) == parentId)
+                                                  .ToListAsync();
+
                 _context.Set<TChild>().RemoveRange(childEntities);
                 _context.Set<T>().Remove(parentEntity);
                 await _context.SaveChangesAsync();
             }
         }
+
+
     }
 }

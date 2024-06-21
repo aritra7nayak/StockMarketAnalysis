@@ -8,6 +8,8 @@
         public SourceTypeEnum SourceType { get; set; }
         public ProcessTypeEnum ProcessType { get; set; }
         public InsertTypeEnum InsertType { get; set; }
+
+        public int? RowsTotal { get; set; }
         public int? RowsAdded { get; set; }
         public int? RowsUpdated { get; set; }
         public int? RowsDeleted { get; set; }

@@ -26,6 +26,9 @@
                 @Html.DisplayNameFor(model => model.InsertType)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.RowsTotal)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.RowsAdded)
             </th>
             <th>
@@ -64,6 +67,9 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.InsertType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RowsTotal)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.RowsAdded)

@@ -8,7 +8,7 @@ namespace DataAcquisitionService.Controllers
 {
     [Route("api/DataAcquisition/SecurityRuns")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class SecurityRunsController : ControllerBase
     {
         private readonly ISecurityRunService _securityRunService;
@@ -42,6 +42,7 @@ namespace DataAcquisitionService.Controllers
                     RowsAdded = s.RowsAdded,
                     RowsDeleted = s.RowsDeleted,
                     RowsUpdated = s.RowsUpdated,
+                    RowsTotal = s.RowsTotal
 
                 });
 
@@ -71,6 +72,24 @@ namespace DataAcquisitionService.Controllers
 
 
                 _response.Result = securityRun;
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.Message = ex.Message;
+            }
+            return _response;
+        }
+
+        [HttpGet]
+        [Route("GetSecurityRunById/{id}")]
+        // GET: SecurityController
+        public async Task<ResponseDto> GetSecurityRunById(int id)
+        {
+            try
+            {
+                SecurityRun objList = await _securityRunService.GetSecurityRunByIdAsync(id);
+                _response.Result = objList;
             }
             catch (Exception ex)
             {

@@ -9,6 +9,7 @@ namespace DataAcquisitionService.Repository.IRepository
         Task AddAsync(T entity);
         Task UpdateAsync(T entity);
         Task DeleteAsync(int id);
-        Task DeleteForParent<TChild>(int parentId) where TChild : class;
+        Task DeleteForParent<TChild>(int parentId, string parentIdFieldName) where TChild : class;
+
     }
 }
