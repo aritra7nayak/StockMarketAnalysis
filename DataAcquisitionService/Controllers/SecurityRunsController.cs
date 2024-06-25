@@ -8,7 +8,7 @@ namespace DataAcquisitionService.Controllers
 {
     [Route("api/DataAcquisition/SecurityRuns")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class SecurityRunsController : ControllerBase
     {
         private readonly ISecurityRunService _securityRunService;
@@ -60,7 +60,7 @@ namespace DataAcquisitionService.Controllers
         public async Task<ResponseDto> Create([FromBody] SecurityRunDto securityRunDto)
         {
             SecurityRun securityRun = new();
-
+            securityRun.Date = securityRunDto.Date;
             securityRun.InsertType = securityRunDto.InsertType;
             securityRun.ProcessType = securityRunDto.ProcessType;
             securityRun.SourceType = securityRunDto.SourceType;

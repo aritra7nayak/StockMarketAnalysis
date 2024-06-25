@@ -7,6 +7,14 @@ a.navbar-brand {
   word-break: break-all;
 }
 
+.navbar-nav .nav-link {
+    color: white !important;
+}
+
+.page-title {
+    color: white;
+}
+
 
 .btn-primary {
   color: #fff;

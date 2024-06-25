@@ -16,6 +16,8 @@ namespace DataAcquisitionService.Models
         [DisplayName("Market Lot")]
         public int? MarketLot { get; set; }
 
+        public int? BseCode { get; set; }
+
         public SecurityTypeEnum? SecurityType { get; set; }
 
         public virtual SecurityRun SecurityRun { get; set; }

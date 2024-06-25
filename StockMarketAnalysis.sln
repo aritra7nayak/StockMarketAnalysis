@@ -15,7 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAcquisitionService", "D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthApiV2", "AuthApiV2\AuthApiV2.csproj", "{D4B700DF-FC42-4D5D-988C-CFE40E51B70A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockAnalysis.Web", "StockAnalysis.Web\StockAnalysis.Web.csproj", "{C3C22551-9C1B-4DDD-90C2-3FD9A13E1187}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StockAnalysis.Web", "StockAnalysis.Web\StockAnalysis.Web.csproj", "{C3C22551-9C1B-4DDD-90C2-3FD9A13E1187}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Analytics.GatewaySolutions", "Analytics.GatewaySolutions\Analytics.GatewaySolutions.csproj", "{A3101A5C-CF1A-4E94-8139-DA4248F13B7A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +37,10 @@ Global
 		{C3C22551-9C1B-4DDD-90C2-3FD9A13E1187}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C3C22551-9C1B-4DDD-90C2-3FD9A13E1187}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C3C22551-9C1B-4DDD-90C2-3FD9A13E1187}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3101A5C-CF1A-4E94-8139-DA4248F13B7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3101A5C-CF1A-4E94-8139-DA4248F13B7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3101A5C-CF1A-4E94-8139-DA4248F13B7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3101A5C-CF1A-4E94-8139-DA4248F13B7A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -43,6 +49,7 @@ Global
 		{1C6BFC06-F79B-4581-9C1A-EC018AAA4CC8} = {14B607E9-5E44-4411-BEE0-50FFDF906DD3}
 		{D4B700DF-FC42-4D5D-988C-CFE40E51B70A} = {14B607E9-5E44-4411-BEE0-50FFDF906DD3}
 		{C3C22551-9C1B-4DDD-90C2-3FD9A13E1187} = {CABD7F31-10C7-4BC5-88A7-ABD031CB0D4B}
+		{A3101A5C-CF1A-4E94-8139-DA4248F13B7A} = {B4BEEB79-4D05-4484-9320-4774A0BE4CF9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B430A2D9-DA04-4B27-BB0C-3F72689E4B8C}
