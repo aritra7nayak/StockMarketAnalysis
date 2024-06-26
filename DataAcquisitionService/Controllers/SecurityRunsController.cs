@@ -44,7 +44,7 @@ namespace DataAcquisitionService.Controllers
                     RowsUpdated = s.RowsUpdated,
                     RowsTotal = s.RowsTotal
 
-                });
+                }).OrderByDescending(o=>o.Date);
 
                 _response.Result = securityRunDtos;
             }
