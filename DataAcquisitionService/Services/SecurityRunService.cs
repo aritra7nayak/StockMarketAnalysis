@@ -30,12 +30,27 @@ namespace DataAcquisitionService.Services
             }
             try
             {
-                SecurityImporter securityImporter = new SecurityImporter(securityRun);
-                securityImporter.InitiateProcess();
-                DataTable dataTable = securityImporter.GetDataTable();
-                securityRun =await _unitOfWork.securityRunRepository.ProcessSecuritiesAsync(securityRun, dataTable);
-                await _unitOfWork.securityRunRepository.UpdateAsync(securityRun);
-                await _unitOfWork.SaveChangesAsync();
+                switch (securityRun.SourceType)
+                {
+                    case SourceTypeEnum.NSE:
+                        NSESecurityImporter securityImporter = new NSESecurityImporter(securityRun);
+                        securityImporter.InitiateProcess();
+                        DataTable dataTable = securityImporter.GetDataTable();
+                        securityRun = await _unitOfWork.securityRunRepository.ProcessNSESecuritiesAsync(securityRun, dataTable);
+                        await _unitOfWork.securityRunRepository.UpdateAsync(securityRun);
+                        await _unitOfWork.SaveChangesAsync();
+                        break;
+                    case SourceTypeEnum.BSE:
+                        BSESecurityImporter bseSecurityImporter = new BSESecurityImporter(securityRun);
+                        bseSecurityImporter.InitiateProcess();
+                        DataTable bsedataTable = bseSecurityImporter.GetDataTable();
+                        securityRun = await _unitOfWork.securityRunRepository.ProcessBSESecuritiesAsync(securityRun, bsedataTable);
+                        await _unitOfWork.securityRunRepository.UpdateAsync(securityRun);
+                        await _unitOfWork.SaveChangesAsync();
+                        break;
+
+                }
+                
 
             }
             catch (Exception ex)

@@ -5,6 +5,7 @@ namespace DataAcquisitionService.Repository.IRepository
 {
     public interface ISecurityRunRepository : IGenericRepository<SecurityRun>
     {
-        Task<SecurityRun> ProcessSecuritiesAsync(SecurityRun securityRun, DataTable securitiesTable);
+        Task<SecurityRun> ProcessNSESecuritiesAsync(SecurityRun securityRun, DataTable securitiesTable);
+        Task<SecurityRun> ProcessBSESecuritiesAsync(SecurityRun securityRun, DataTable securitiesTable);
     }
 }

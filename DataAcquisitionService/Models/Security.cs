@@ -9,8 +9,8 @@ namespace DataAcquisitionService.Models
 
         public int? SecurityRunID { get; set; }
         public string Name { get; set; }
-        public string Symbol { get; set; }
-        public string Series {  get; set; }
+        public string? Symbol { get; set; }
+        public string? Series {  get; set; }
         public DateTime? ListingDate { get; set; }
 
         [DisplayName("Market Lot")]
