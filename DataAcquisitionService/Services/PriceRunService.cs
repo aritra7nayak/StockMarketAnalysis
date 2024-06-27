@@ -31,22 +31,22 @@ namespace DataAcquisitionService.Services
             {
                 switch (priceRun.SourceType)
                 {
-                    case SourceTypeEnum.NSE:
-                        NSEPriceImporter priceImporter = new NSEPriceImporter(priceRun);
-                        priceImporter.InitiateProcess();
-                        DataTable dataTable = priceImporter.GetDataTable();
-                        priceRun = await _unitOfWork.priceRunRepository.ProcessNSEPricesAsync(priceRun, dataTable);
-                        await _unitOfWork.priceRunRepository.UpdateAsync(priceRun);
-                        await _unitOfWork.SaveChangesAsync();
-                        break;
-                    case SourceTypeEnum.BSE:
-                        BSEPriceImporter bsePriceImporter = new BSEPriceImporter(priceRun);
-                        bsePriceImporter.InitiateProcess();
-                        DataTable bsedataTable = bsePriceImporter.GetDataTable();
-                        priceRun = await _unitOfWork.priceRunRepository.ProcessBSEPricesAsync(priceRun, bsedataTable);
-                        await _unitOfWork.priceRunRepository.UpdateAsync(priceRun);
-                        await _unitOfWork.SaveChangesAsync();
-                        break;
+                    //case SourceTypeEnum.NSE:
+                    //    NSEPriceImporter priceImporter = new NSEPriceImporter(priceRun);
+                    //    priceImporter.InitiateProcess();
+                    //    DataTable dataTable = priceImporter.GetDataTable();
+                    //    priceRun = await _unitOfWork.priceRunRepository.ProcessNSEPricesAsync(priceRun, dataTable);
+                    //    await _unitOfWork.priceRunRepository.UpdateAsync(priceRun);
+                    //    await _unitOfWork.SaveChangesAsync();
+                    //    break;
+                    //case SourceTypeEnum.BSE:
+                    //    BSEPriceImporter bsePriceImporter = new BSEPriceImporter(priceRun);
+                    //    bsePriceImporter.InitiateProcess();
+                    //    DataTable bsedataTable = bsePriceImporter.GetDataTable();
+                    //    priceRun = await _unitOfWork.priceRunRepository.ProcessBSEPricesAsync(priceRun, bsedataTable);
+                    //    await _unitOfWork.priceRunRepository.UpdateAsync(priceRun);
+                    //    await _unitOfWork.SaveChangesAsync();
+                    //    break;
 
                 }
 
