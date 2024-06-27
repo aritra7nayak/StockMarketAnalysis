@@ -4,6 +4,9 @@
     {
         ISecurityRepository securityRepository { get; }
         ISecurityRunRepository securityRunRepository { get; }
+
+        IPriceRepository priceRepository { get; }
+        IPriceRunRepository priceRunRepository { get; }
         ICorporateAnnouncementRepository corporateAnnouncementRepository { get; }
         Task<int> SaveChangesAsync();
     }

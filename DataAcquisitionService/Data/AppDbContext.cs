@@ -13,6 +13,8 @@ namespace DataAcquisitionService.Data
 
         public DbSet<Security> Securities { get; set; }
         public DbSet<SecurityRun> SecurityRun { get; set; }
+        public DbSet<PriceRun> PriceRuns { get; set; }
+        public DbSet<Price> Price { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

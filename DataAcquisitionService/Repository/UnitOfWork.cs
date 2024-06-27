@@ -13,12 +13,17 @@ namespace DataAcquisitionService.Repository
             _appDbContext = appDbContext;
             securityRepository = new SecurityRepository(appDbContext);
             securityRunRepository = new SecurityRunRepository(appDbContext);
+
+            priceRepository = new PriceRepository(appDbContext);
+            priceRunRepository = new PriceRunRepository(appDbContext);
             corporateAnnouncementRepository = new CorporateAnnouncementRepository(appDbContext);
 
         }
 
         public ISecurityRepository securityRepository { get; private set; }
         public ISecurityRunRepository securityRunRepository { get; private set; }
+        public IPriceRepository priceRepository { get; private set; }
+        public IPriceRunRepository priceRunRepository { get; private set; }
         public ICorporateAnnouncementRepository corporateAnnouncementRepository { get; private set; }
 
         public async Task<int> SaveChangesAsync()
