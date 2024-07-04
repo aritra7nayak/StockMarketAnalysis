@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Price>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
+</p>
+
+@await Html.PartialAsync("_FilterPartial")
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Security ID</th>
+            <th>Exchange</th>
+            <th>Price Run ID</th>
+            <th>Open</th>
+            <th>High</th>
+            <th>Low</th>
+            <th>Close</th>
+            <th>LTP</th>
+            <th>Traded Volume</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Date)</td>
+                <td>@Html.DisplayFor(modelItem => item.SecurityID)</td>
+                <td>@Html.DisplayFor(modelItem => item.Exchange)</td>
+                <td>@Html.DisplayFor(modelItem => item.PriceRunID)</td>
+                <td>@Html.DisplayFor(modelItem => item.Open)</td>
+                <td>@Html.DisplayFor(modelItem => item.High)</td>
+                <td>@Html.DisplayFor(modelItem => item.Low)</td>
+                <td>@Html.DisplayFor(modelItem => item.Close)</td>
+                <td>@Html.DisplayFor(modelItem => item.LTP)</td>
+                <td>@Html.DisplayFor(modelItem => item.TradedVolume)</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-primary">Edit</a>
+                    <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-info">Details</a>
+                    <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

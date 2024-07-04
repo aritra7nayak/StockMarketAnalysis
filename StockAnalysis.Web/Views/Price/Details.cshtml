@@ -1,0 +1,78 @@
+﻿@model Price
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Price</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Date)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Date)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.SecurityID)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.SecurityID)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Exchange)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Exchange)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.PriceRunID)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PriceRunID)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Open)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Open)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.High)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.High)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Low)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Low)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Close)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Close)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.LTP)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.LTP)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TradedVolume)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TradedVolume)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.ID" class="btn btn-primary">Edit</a> |
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+</div>

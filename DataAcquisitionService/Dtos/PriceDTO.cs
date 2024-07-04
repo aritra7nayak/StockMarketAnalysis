@@ -1,8 +1,10 @@
-﻿namespace DataAcquisitionService.Models
+﻿using DataAcquisitionService.Models;
+
+namespace DataAcquisitionService.Dtos
 {
-    public class Price : LogEntity
+    public class PriceDTO
     {
-        public int ID { get; set; }
+        public int? ID { get; set; }
 
         #region Candidate Key
         public DateTime? Date { get; set; }
@@ -13,16 +15,11 @@
         public int? PriceRunID { get; set; }
 
 
-        public decimal? Open {  get; set; }
+        public decimal? Open { get; set; }
         public decimal? High { get; set; }
         public decimal? Low { get; set; }
         public decimal? Close { get; set; }
         public decimal? LTP { get; set; }
-        public decimal? PrevClose { get; set; }
         public decimal? TradedVolume { get; set; }
-
-
-        public virtual PriceRun PriceRun { get; set; }
-        public virtual Security Security { get; set; }
     }
 }

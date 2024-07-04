@@ -16,10 +16,15 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<ISecurityService, SecurityService>();
 builder.Services.AddScoped<ISecurityRunService, SecurityRunService>();
+builder.Services.AddScoped<IPriceService, PriceService>();
+builder.Services.AddScoped<IPriceRunService, PriceRunService>();
 builder.Services.AddScoped<ICorporateAnnouncementService, CorporateAnnouncementService>();
 builder.Services.AddScoped<IUnitofWork,UnitOfWork>();
 builder.Services.AddScoped<ISecurityRepository,SecurityRepository>();
 builder.Services.AddScoped<ISecurityRunRepository,SecurityRunRepository>();
+
+builder.Services.AddScoped<IPriceRepository, PriceRepository>();
+builder.Services.AddScoped<IPriceRunRepository, PriceRunRepository>();
 builder.Services.AddScoped<ICorporateAnnouncementRepository,CorporateAnnouncementRepository>();
 builder.Services.AddDbContext<AppDbContext>(option =>
 {

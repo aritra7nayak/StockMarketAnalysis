@@ -4,6 +4,7 @@ using DataAcquisitionService.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAcquisitionService.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240703005957_daq8")]
+    partial class daq8
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -63,9 +66,6 @@ namespace DataAcquisitionService.Migrations
                     b.Property<decimal?>("Open")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<decimal?>("PrevClose")
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<int?>("PriceRunID")
                         .HasColumnType("int");
 
@@ -79,9 +79,7 @@ namespace DataAcquisitionService.Migrations
 
                     b.HasIndex("PriceRunID");
 
-                    b.HasIndex("SecurityID");
-
-                    b.ToTable("Prices");
+                    b.ToTable("Price");
                 });
 
             modelBuilder.Entity("DataAcquisitionService.Models.PriceRun", b =>
@@ -264,13 +262,7 @@ namespace DataAcquisitionService.Migrations
                         .WithMany()
                         .HasForeignKey("PriceRunID");
 
-                    b.HasOne("DataAcquisitionService.Models.Security", "Security")
-                        .WithMany()
-                        .HasForeignKey("SecurityID");
-
                     b.Navigation("PriceRun");
-
-                    b.Navigation("Security");
                 });
 
             modelBuilder.Entity("DataAcquisitionService.Models.Security", b =>
