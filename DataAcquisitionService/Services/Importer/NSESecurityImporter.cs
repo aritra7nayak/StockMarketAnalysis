@@ -43,7 +43,6 @@ namespace DataAcquisitionService.Services.Importer
             }
 
             File.WriteAllBytes(FilePath, _securityRun.FileStream);
-
         }
 
         public override void RetriveFile()

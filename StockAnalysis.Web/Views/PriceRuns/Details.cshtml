@@ -1,0 +1,95 @@
+﻿@model PriceRunDto
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>PriceRunDto</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Date)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Date)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.SourceType)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.SourceType)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ProcessType)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ProcessType)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.InsertType)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.InsertType)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.RowsAdded)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.RowsAdded)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.RowsUpdated)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.RowsUpdated)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.RowsDeleted)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.RowsDeleted)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.RowsWarning)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.RowsWarning)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.FilePath)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FilePath)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ErrorFilePath)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ErrorFilePath)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ErrorMessage)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ErrorMessage)
+        </dd>
+    </dl>
+</div>
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

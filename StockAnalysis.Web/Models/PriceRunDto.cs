@@ -1,6 +1,4 @@
-﻿using DataAcquisitionService.Models;
-
-namespace DataAcquisitionService.Dtos
+﻿namespace StockAnalysis.Web.Models
 {
     public class PriceRunDto: LogEntity
     {

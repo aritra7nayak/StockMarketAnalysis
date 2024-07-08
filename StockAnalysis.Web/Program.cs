@@ -19,6 +19,7 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ISecurityService, SecurityService>();
 builder.Services.AddScoped<IPriceService, PriceService>();
 builder.Services.AddScoped<ISecurityRunService, SecurityRunService>();
+builder.Services.AddScoped<IPriceRunService, PriceRunService>();
 builder.Services.AddScoped<ITokenProvider, TokenProvider>();
 
 builder.Services.AddScoped<IBaseService, BaseService>();
