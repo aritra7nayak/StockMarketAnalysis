@@ -20,9 +20,14 @@ builder.Services.AddScoped<IPriceService, PriceService>();
 builder.Services.AddScoped<IPriceRunService, PriceRunService>();
 builder.Services.AddScoped<ICorporateAnnouncementService, CorporateAnnouncementService>();
 builder.Services.AddScoped<IUnitofWork,UnitOfWork>();
+builder.Services.AddScoped<ICorporateActionService, CorporateActionService>();
+builder.Services.AddScoped<ICorporateActionRunService, CorporateActionRunService>();
+
+
+builder.Services.AddScoped<ICorporateActionRepository, CorporateActionRepository>();
+builder.Services.AddScoped<ICorporateActionRunRepository, CorporateActionRunRepository>();
 builder.Services.AddScoped<ISecurityRepository,SecurityRepository>();
 builder.Services.AddScoped<ISecurityRunRepository,SecurityRunRepository>();
-
 builder.Services.AddScoped<IPriceRepository, PriceRepository>();
 builder.Services.AddScoped<IPriceRunRepository, PriceRunRepository>();
 builder.Services.AddScoped<ICorporateAnnouncementRepository,CorporateAnnouncementRepository>();

@@ -47,16 +47,16 @@ namespace DataAcquisitionService.Services.Importer
                 Directory.CreateDirectory(directory);
             }
 
-            File.WriteAllBytes(FilePath, _priceRun.FileStream);
-            Correctcsv(FilePath, FilePath);
-            RemoveCommasWithinQuotes(FilePath, FilePath);
-            RemoveAllQuotes(FilePath, FilePath);
+            
 
         }
 
         public override void RetriveFile()
         {
-          //  File.WriteAllBytes(FilePath, _priceRun.FileStream);
+            File.WriteAllBytes(FilePath, _priceRun.FileStream);
+            Correctcsv(FilePath, FilePath);
+            RemoveCommasWithinQuotes(FilePath, FilePath);
+            RemoveAllQuotes(FilePath, FilePath);
         }
 
         public async override void ProcessData()

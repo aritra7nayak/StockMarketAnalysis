@@ -11,7 +11,7 @@
         #endregion
 
         public int? PriceRunID { get; set; }
-
+        public string? SecurityName {  get; set; } 
 
         public decimal? Open {  get; set; }
         public decimal? High { get; set; }

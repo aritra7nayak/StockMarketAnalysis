@@ -15,6 +15,8 @@ namespace DataAcquisitionService.Data
         public DbSet<SecurityRun> SecurityRun { get; set; }
         public DbSet<PriceRun> PriceRuns { get; set; }
         public DbSet<Price> Prices { get; set; }
+        public DbSet<CorporateActionRun> CorporateActionRuns { get; set; }
+        public DbSet<CorporateActionRun> CorporateActions { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -20,6 +20,9 @@ builder.Services.AddScoped<ISecurityService, SecurityService>();
 builder.Services.AddScoped<IPriceService, PriceService>();
 builder.Services.AddScoped<ISecurityRunService, SecurityRunService>();
 builder.Services.AddScoped<IPriceRunService, PriceRunService>();
+builder.Services.AddScoped<ICorporateActionService, CorporateActionService>();
+builder.Services.AddScoped<ICorporateActionRunService, CorporateActionRunService>();
+
 builder.Services.AddScoped<ITokenProvider, TokenProvider>();
 
 builder.Services.AddScoped<IBaseService, BaseService>();
