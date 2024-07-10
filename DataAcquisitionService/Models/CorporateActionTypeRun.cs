@@ -2,7 +2,7 @@
 
 namespace DataAcquisitionService.Models
 {
-    public class CorporateActionRun : ProcessEntity
+    public class CorporateActionTypeRun : ProcessEntity
     {
         public int Id { get; set; }
 

@@ -4,9 +4,6 @@ using DataAcquisitionService.Data;
 using Microsoft.EntityFrameworkCore;
 using DataAcquisitionService.Services.IService;
 using DataAcquisitionService.Services;
-using System.Text;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
 using DataAcquisitionService.Extensons;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,8 +19,12 @@ builder.Services.AddScoped<ICorporateAnnouncementService, CorporateAnnouncementS
 builder.Services.AddScoped<IUnitofWork,UnitOfWork>();
 builder.Services.AddScoped<ICorporateActionService, CorporateActionService>();
 builder.Services.AddScoped<ICorporateActionRunService, CorporateActionRunService>();
+builder.Services.AddScoped<ICorporateActionTypeService, CorporateActionTypeService>();
+builder.Services.AddScoped<ICorporateActionTypeRunService, CorporateActionTypeRunService>();
 
 
+builder.Services.AddScoped<ICorporateActionTypeRepository, CorporateActionTypeRepository>();
+builder.Services.AddScoped<ICorporateActionTypeRunRepository, CorporateActionTypeRunRepository>();
 builder.Services.AddScoped<ICorporateActionRepository, CorporateActionRepository>();
 builder.Services.AddScoped<ICorporateActionRunRepository, CorporateActionRunRepository>();
 builder.Services.AddScoped<ISecurityRepository,SecurityRepository>();

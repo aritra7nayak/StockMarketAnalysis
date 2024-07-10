@@ -17,6 +17,8 @@ namespace DataAcquisitionService.Repository
             priceRepository = new PriceRepository(appDbContext);
             priceRunRepository = new PriceRunRepository(appDbContext);
 
+            corporateActionTypeRepository = new CorporateActionTypeRepository(appDbContext);
+            corporateActionTypeRunRepository = new CorporateActionTypeRunRepository(appDbContext);
             corporateActionRepository = new CorporateActionRepository(appDbContext);
             corporateActionRunRepository = new CorporateActionRunRepository(appDbContext);
             corporateAnnouncementRepository = new CorporateAnnouncementRepository(appDbContext);
@@ -28,6 +30,8 @@ namespace DataAcquisitionService.Repository
         public IPriceRepository priceRepository { get; private set; }
         public IPriceRunRepository priceRunRepository { get; private set; }
 
+        public ICorporateActionTypeRepository corporateActionTypeRepository { get; private set; }
+        public ICorporateActionTypeRunRepository corporateActionTypeRunRepository { get; private set; }
         public ICorporateActionRepository corporateActionRepository { get; private set; }
         public ICorporateActionRunRepository corporateActionRunRepository { get; private set; }
         public ICorporateAnnouncementRepository corporateAnnouncementRepository { get; private set; }
