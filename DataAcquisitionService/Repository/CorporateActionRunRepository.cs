@@ -1,6 +1,7 @@
 ﻿using DataAcquisitionService.Data;
 using DataAcquisitionService.Models;
 using DataAcquisitionService.Repository.IRepository;
+using System.Data;
 
 namespace DataAcquisitionService.Repository
 {
@@ -10,5 +11,9 @@ namespace DataAcquisitionService.Repository
         {
         }
 
+        public Task<CorporateActionRun> ProcessNSECorporateActionsAsync(CorporateActionRun corporateActionRun, DataTable corporateActionsTable)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

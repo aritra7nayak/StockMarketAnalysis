@@ -2,7 +2,7 @@
 
 namespace DataAcquisitionService.Repository.IRepository
 {
-    public interface ICorporateActionTypeRepository //: IGenericRepository<CorporateActionType>
+    public interface ICorporateActionTypeRepository : IGenericRepository<CorporateActionType>
     {
     }
 }
