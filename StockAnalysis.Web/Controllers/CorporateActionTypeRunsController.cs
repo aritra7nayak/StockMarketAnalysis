@@ -5,32 +5,32 @@ using StockAnalysis.Web.Service.IService;
 
 namespace StockAnalysis.Web.Controllers
 {
-    public class CorporateActionRunsController : Controller
+    public class CorporateActionTypeRunsController : Controller
     {
 
-        private readonly ICorporateActionRunService _corporateActionRunService;
+        private readonly ICorporateActionTypeRunService _corporateActionTypeRunService;
 
-        public CorporateActionRunsController(ICorporateActionRunService corporateActionRunService)
+        public CorporateActionTypeRunsController(ICorporateActionTypeRunService corporateActionTypeRunService)
         {
-            _corporateActionRunService = corporateActionRunService;
+            _corporateActionTypeRunService = corporateActionTypeRunService;
         }
 
 
 
-        // GET: CorporateActionRun
+        // GET: CorporateActionTypeRun
         public async Task<IActionResult> Index()
         {
-            List<CorporateActionRunDto>? list = new();
+            List<CorporateActionTypeRunDto>? list = new();
             ResponseDto? response = new();
 
 
-            response = await _corporateActionRunService.GetAllCorporateActionRunsAsync();
+            response = await _corporateActionTypeRunService.GetAllCorporateActionTypeRunsAsync();
 
 
             if (response != null && response.IsSuccess)
             {
 
-                list = JsonConvert.DeserializeObject<List<CorporateActionRunDto>>(Convert.ToString(response.Result));
+                list = JsonConvert.DeserializeObject<List<CorporateActionTypeRunDto>>(Convert.ToString(response.Result));
             }
             else
             {
@@ -39,33 +39,33 @@ namespace StockAnalysis.Web.Controllers
             return View(list);
         }
 
-        // GET: CorporateActionRun/Details/5
+        // GET: CorporateActionTypeRun/Details/5
         public async Task<IActionResult> Details(int id)
         {
-            CorporateActionRunDto list = new();
-            var corporateAction = await _corporateActionRunService.GetCorporateActionRunByIdAsync(id);
-            if (corporateAction != null && corporateAction.IsSuccess)
+            CorporateActionTypeRunDto list = new();
+            var corporateActionType = await _corporateActionTypeRunService.GetCorporateActionTypeRunByIdAsync(id);
+            if (corporateActionType != null && corporateActionType.IsSuccess)
             {
 
-                list = JsonConvert.DeserializeObject<CorporateActionRunDto>(Convert.ToString(corporateAction.Result));
+                list = JsonConvert.DeserializeObject<CorporateActionTypeRunDto>(Convert.ToString(corporateActionType.Result));
             }
             else
             {
-                TempData["error"] = corporateAction?.Message;
+                TempData["error"] = corporateActionType?.Message;
             }
             return View(list);
         }
 
-        // GET: CorporateActionRun/Create
+        // GET: CorporateActionTypeRun/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: CorporateActionRun/Create
+        // POST: CorporateActionTypeRun/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(CorporateActionRunDto corporateActionRunDto, IFormFile File)
+        public async Task<IActionResult> Create(CorporateActionTypeRunDto corporateActionTypeRunDto, IFormFile File)
         {
             if (ModelState.IsValid)
             {
@@ -80,17 +80,17 @@ namespace StockAnalysis.Web.Controllers
                     using (var memoryStream = new MemoryStream())
                     {
                         await File.CopyToAsync(memoryStream);
-                        corporateActionRunDto.FileStream = memoryStream.ToArray();
+                        corporateActionTypeRunDto.FileStream = memoryStream.ToArray();
                     }
-                    corporateActionRunDto.FilePath = filePath;
+                    corporateActionTypeRunDto.FilePath = filePath;
                 }
                 try
                 {
-                    ResponseDto? response = await _corporateActionRunService.AddCorporateActionRunAsync(corporateActionRunDto);
+                    ResponseDto? response = await _corporateActionTypeRunService.AddCorporateActionTypeRunAsync(corporateActionTypeRunDto);
 
                     if (response != null && response.IsSuccess)
                     {
-                        TempData["success"] = "CorporateActionRun Created Successfully";
+                        TempData["success"] = "CorporateActionTypeRun Created Successfully";
 
                         return RedirectToAction(nameof(Index));
                     }
@@ -108,32 +108,32 @@ namespace StockAnalysis.Web.Controllers
 
 
             }
-            return View(corporateActionRunDto);
+            return View(corporateActionTypeRunDto);
         }
 
-        // GET: CorporateActionRun/Edit/5
+        // GET: CorporateActionTypeRun/Edit/5
         public async Task<IActionResult> Edit(int id)
         {
-            CorporateActionRunDto list = new();
-            var corporateAction = await _corporateActionRunService.GetCorporateActionRunByIdAsync(id);
-            if (corporateAction != null && corporateAction.IsSuccess)
+            CorporateActionTypeRunDto list = new();
+            var corporateActionType = await _corporateActionTypeRunService.GetCorporateActionTypeRunByIdAsync(id);
+            if (corporateActionType != null && corporateActionType.IsSuccess)
             {
 
-                list = JsonConvert.DeserializeObject<CorporateActionRunDto>(Convert.ToString(corporateAction.Result));
+                list = JsonConvert.DeserializeObject<CorporateActionTypeRunDto>(Convert.ToString(corporateActionType.Result));
             }
             else
             {
-                TempData["error"] = corporateAction?.Message;
+                TempData["error"] = corporateActionType?.Message;
             }
             return View(list);
         }
 
-        // POST: CorporateActionRun/Edit/5
+        // POST: CorporateActionTypeRun/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Date,SourceType,ProcessType,InsertType,ErrorMessage")] CorporateActionRunDto corporateActionRunDto, IFormFile File)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Date,SourceType,ProcessType,InsertType,ErrorMessage")] CorporateActionTypeRunDto corporateActionTypeRunDto, IFormFile File)
         {
-            //if (id != corporateActionRunDto.Id)
+            //if (id != corporateActionTypeRunDto.Id)
             //{
             //    return NotFound();
             //}
@@ -149,15 +149,15 @@ namespace StockAnalysis.Web.Controllers
             //            {
             //                await File.CopyToAsync(fileStream);
             //            }
-            //            corporateActionRunDto.FilePath = filePath;
+            //            corporateActionTypeRunDto.FilePath = filePath;
             //        }
 
-            //        _context.Update(corporateActionRunDto);
+            //        _context.Update(corporateActionTypeRunDto);
             //        await _context.SaveChangesAsync();
             //    }
             //    catch (DbUpdateConcurrencyException)
             //    {
-            //        if (!CorporateActionRunExists(corporateActionRunDto.Id))
+            //        if (!CorporateActionTypeRunExists(corporateActionTypeRunDto.Id))
             //        {
             //            return NotFound();
             //        }
@@ -171,34 +171,34 @@ namespace StockAnalysis.Web.Controllers
             return View();
         }
 
-        // GET: CorporateActionRun/Delete/5
+        // GET: CorporateActionTypeRun/Delete/5
         public async Task<IActionResult> Delete(int id)
         {
-            CorporateActionRunDto list = new();
-            var corporateAction = await _corporateActionRunService.GetCorporateActionRunByIdAsync(id);
-            if (corporateAction != null && corporateAction.IsSuccess)
+            CorporateActionTypeRunDto list = new();
+            var corporateActionType = await _corporateActionTypeRunService.GetCorporateActionTypeRunByIdAsync(id);
+            if (corporateActionType != null && corporateActionType.IsSuccess)
             {
 
-                list = JsonConvert.DeserializeObject<CorporateActionRunDto>(Convert.ToString(corporateAction.Result));
+                list = JsonConvert.DeserializeObject<CorporateActionTypeRunDto>(Convert.ToString(corporateActionType.Result));
             }
             else
             {
-                TempData["error"] = corporateAction?.Message;
+                TempData["error"] = corporateActionType?.Message;
             }
             return View(list);
         }
 
-        // POST: CorporateActionRun/Delete/5
+        // POST: CorporateActionTypeRun/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             try
             {
-                var corporateAction = await _corporateActionRunService.GetCorporateActionRunByIdAsync(id);
-                if (corporateAction != null)
+                var corporateActionType = await _corporateActionTypeRunService.GetCorporateActionTypeRunByIdAsync(id);
+                if (corporateActionType != null)
                 {
-                    await _corporateActionRunService.DeleteCorporateActionAsync(id);
+                    await _corporateActionTypeRunService.DeleteCorporateActionTypeAsync(id);
                 }
                 return RedirectToAction(nameof(Index));
             }

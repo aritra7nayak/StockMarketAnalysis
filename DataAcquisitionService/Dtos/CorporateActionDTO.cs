@@ -1,6 +1,6 @@
-﻿namespace StockAnalysis.Web.Models
+﻿namespace DataAcquisitionService.Dtos
 {
-    public class CorporateAction
+    public class CorporateActionDTO
     {
         public int? ID { get; set; }
 

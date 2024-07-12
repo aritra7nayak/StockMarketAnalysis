@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DataAcquisitionService.Controllers
 {
-    [Route("api/DataAcquisition/CorporateActionType")]
+    [Route("api/DataAcquisition/CorporateActionTypes")]
     [ApiController]
     [Authorize]
     public class CorporateActionTypesController : ControllerBase

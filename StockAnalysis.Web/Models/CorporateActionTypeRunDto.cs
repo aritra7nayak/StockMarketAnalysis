@@ -1,6 +1,6 @@
 ﻿namespace StockAnalysis.Web.Models
 {
-    public class CorporateActionRunDto : LogEntity
+    public class CorporateActionTypeRunDto : LogEntity
     {
         public int Id { get; set; }
         public byte[]? FileStream { get; set; }

@@ -1,6 +1,8 @@
-﻿namespace DataAcquisitionService.Repository.IRepository
+﻿using DataAcquisitionService.Models;
+
+namespace DataAcquisitionService.Repository.IRepository
 {
-    public interface ICorporateActionRepository
+    public interface ICorporateActionRepository : IGenericRepository<CorporateAction>
     {
     }
 }

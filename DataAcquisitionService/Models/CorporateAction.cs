@@ -8,6 +8,8 @@
         public DateTime? Date { get; set; }
         public int? SecurityID { get; set; }
         public string? Purpose { get; set; }
+
+        public int? CorporateActionTypeID { get; set; }
         #endregion
 
         public int? CorporateActionRunID { get; set; }
@@ -20,6 +22,7 @@
         public DateTime? Book_Closure_End_Date { get; set; }
 
         public virtual CorporateActionRun CorporateActionRun { get; set; }
+        public virtual CorporateActionType CorporateActionType { get; set; }
         public virtual Security Security { get; set; }
     }
 }
