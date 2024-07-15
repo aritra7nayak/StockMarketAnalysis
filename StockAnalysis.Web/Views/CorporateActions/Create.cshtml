@@ -1,0 +1,78 @@
+﻿@model CorporateAction
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Corporate Action</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div class="form-group">
+                <label asp-for="Date" class="control-label"></label>
+                <input asp-for="Date" class="form-control" />
+                <span asp-validation-for="Date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SecurityID" class="control-label"></label>
+                <input asp-for="SecurityID" class="form-control" />
+                <span asp-validation-for="SecurityID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Purpose" class="control-label"></label>
+                <input asp-for="Purpose" class="form-control" />
+                <span asp-validation-for="Purpose" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CorporateActionTypeID" class="control-label"></label>
+                <input asp-for="CorporateActionTypeID" class="form-control" />
+                <span asp-validation-for="CorporateActionTypeID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CorporateActionRunID" class="control-label"></label>
+                <input asp-for="CorporateActionRunID" class="form-control" />
+                <span asp-validation-for="CorporateActionRunID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SecurityName" class="control-label"></label>
+                <input asp-for="SecurityName" class="form-control" />
+                <span asp-validation-for="SecurityName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FaceValue" class="control-label"></label>
+                <input asp-for="FaceValue" class="form-control" />
+                <span asp-validation-for="FaceValue" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Record_Date" class="control-label"></label>
+                <input asp-for="Record_Date" class="form-control" />
+                <span asp-validation-for="Record_Date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Book_Closure_Start_Date" class="control-label"></label>
+                <input asp-for="Book_Closure_Start_Date" class="form-control" />
+                <span asp-validation-for="Book_Closure_Start_Date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Book_Closure_End_Date" class="control-label"></label>
+                <input asp-for="Book_Closure_End_Date" class="form-control" />
+                <span asp-validation-for="Book_Closure_End_Date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

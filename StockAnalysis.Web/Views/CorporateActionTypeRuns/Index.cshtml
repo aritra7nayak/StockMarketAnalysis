@@ -1,0 +1,102 @@
+﻿@model IEnumerable<CorporateActionTypeRunDto>
+
+@{
+    ViewData["Title"] = "Corporate Action Type Runs";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SourceType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProcessType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InsertType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RowsTotal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RowsAdded)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RowsUpdated)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RowsDeleted)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RowsWarning)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FilePath)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ErrorFilePath)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ErrorMessage)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SourceType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProcessType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InsertType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RowsTotal)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RowsAdded)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RowsUpdated)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RowsDeleted)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RowsWarning)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FilePath)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ErrorFilePath)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ErrorMessage)
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info">Details</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

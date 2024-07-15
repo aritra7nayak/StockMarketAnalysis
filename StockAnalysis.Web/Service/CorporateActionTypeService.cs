@@ -59,7 +59,7 @@ namespace StockAnalysis.Web.Service
             return await _baseService.SendAsync(new RequestDto()
             {
                 ApiType = Utility.SD.ApiType.GET,
-                Url = SD.DataAcquisition + "/api/DataAcquisition/CorporateActionType/GetCorporateActionTypeById/" + id
+                Url = SD.DataAcquisition + "/api/DataAcquisition/CorporateActionTypes/GetCorporateActionTypeById/" + id
             });
         }
 
@@ -69,7 +69,7 @@ namespace StockAnalysis.Web.Service
             {
                 ApiType = Utility.SD.ApiType.POST,
                 Data = corporateActionType,
-                Url = SD.DataAcquisition + "/api/DataAcquisition/CorporateActionType/Edit"
+                Url = SD.DataAcquisition + "/api/DataAcquisition/CorporateActionTypes/Edit"
             });
         }
     }
