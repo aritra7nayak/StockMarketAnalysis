@@ -22,19 +22,14 @@ namespace DataAcquisitionService.Services.Importer
             columnInfos = new List<ColumnInfo>
             {
             new ColumnInfo { ColumnName = "Symbol", DataType = typeof(string) },
-            new ColumnInfo { ColumnName = "Open", DataType = typeof(decimal) },
-            new ColumnInfo { ColumnName = "High", DataType = typeof(decimal) },
-            new ColumnInfo { ColumnName = "Low", DataType = typeof(decimal) },
-            new ColumnInfo { ColumnName = "C1", DataType = typeof(decimal) },
-            new ColumnInfo { ColumnName = "LTP", DataType = typeof(decimal) },
-            new ColumnInfo { ColumnName = "CZ", DataType = typeof(decimal) },
-            new ColumnInfo { ColumnName = "CZG", DataType = typeof(decimal) },
-            new ColumnInfo { ColumnName = "TradeVolume", DataType = typeof(decimal) },
-            new ColumnInfo { ColumnName = "TradeValue", DataType = typeof(decimal) },
-            new ColumnInfo { ColumnName = "H52W", DataType = typeof(decimal) },
-            new ColumnInfo { ColumnName = "L52W", DataType = typeof(decimal) },
-            new ColumnInfo { ColumnName = "G30D", DataType = typeof(decimal) },
-            new ColumnInfo { ColumnName = "G365D", DataType = typeof(decimal) }
+            new ColumnInfo { ColumnName = "CompanyName", DataType = typeof(string) },
+            new ColumnInfo { ColumnName = "Series", DataType = typeof(string) },
+            new ColumnInfo { ColumnName = "Purpose", DataType = typeof(string) },
+            new ColumnInfo { ColumnName = "FaceValue", DataType = typeof(string) },
+            new ColumnInfo { ColumnName = "ExDate", DataType = typeof(string) },
+            new ColumnInfo { ColumnName = "RecordDate", DataType = typeof(string) },
+            new ColumnInfo { ColumnName = "BookClosureStartDate", DataType = typeof(string) },
+            new ColumnInfo { ColumnName = "BookClosureEndDate", DataType = typeof(string) }
             };
 
 
