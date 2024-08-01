@@ -8,7 +8,7 @@ namespace DataAcquisitionService.Controllers
 {
     [Route("api/DataAcquisition/CorporateActionTypes")]
     [ApiController]
-    [Authorize]
+  //  [Authorize]
     public class CorporateActionTypesController : ControllerBase
     {
         private readonly ICorporateActionTypeService _corporateActionTypeService;
