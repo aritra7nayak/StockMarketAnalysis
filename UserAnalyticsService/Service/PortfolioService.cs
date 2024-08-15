@@ -45,7 +45,7 @@ namespace UserAnalyticsService.Service
         // Example of a specific method that might be unique to Portfolio
         public async Task<IEnumerable<Portfolio>> GetPortfoliosByOwner(Guid ownerId)
         {
-            return await _portfolioRepository.Find(p => p.OwnerId == ownerId);
+            return await _portfolioRepository.Find(p => p.Owner == ownerId);
         }
     }
 }

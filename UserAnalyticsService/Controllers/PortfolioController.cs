@@ -4,6 +4,9 @@ using UserAnalyticsService.Service;
 
 namespace UserAnalyticsService.Controllers
 {
+
+    [ApiController]
+    [Route("api/[controller]")]
     public class PortfolioController : ControllerBase
     {
         private readonly PortfolioService _portfolioService;

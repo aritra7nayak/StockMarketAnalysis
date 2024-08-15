@@ -10,13 +10,13 @@ namespace UserAnalyticsService.Data
     {
         private readonly IMongoDatabase _database;
 
-        public DBContext(IOptions<MongoDbSettings> mongoDbSettings)
+        public DBContext(IConfiguration configuration)
         {
-            var client = new MongoClient(mongoDbSettings.Value.ConnectionString);
-            _database = client.GetDatabase(mongoDbSettings.Value.DatabaseName);
+            var client = new MongoClient(configuration.GetConnectionString("MongoDbConnection"));
+            _database = client.GetDatabase(configuration["MongoDbSettings:DatabaseName"]);
         }
 
-        public IPortfolioRepository Portfolios => new PortfolioRepository(_database, "Portfolios");
+        public IMongoDatabase Database => _database;
 
     }
 }

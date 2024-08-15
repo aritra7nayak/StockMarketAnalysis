@@ -5,14 +5,11 @@ namespace UserAnalyticsService.Models
 {
     public class Portfolio: GenericDocument
     {
-        [BsonId]
-        [BsonRepresentation(BsonType.String)]
-        public Guid OwnerId { get; set; }
+        public string Owner { get; set; }
 
-        public List<Stock> Stocks { get; set; } = new List<Stock>();
+        public List<Stock>? Stocks { get; set; } = new List<Stock>();
 
-        [BsonIgnore]
-        public decimal BuyValue
+        public decimal? BuyValue
         {
             get
             {
@@ -25,8 +22,7 @@ namespace UserAnalyticsService.Models
             }
         }
 
-        [BsonIgnore]
-        public decimal NowValue
+        public decimal? NowValue
         {
             get
             {
@@ -42,7 +38,8 @@ namespace UserAnalyticsService.Models
 
     public class Stock
     {
-        public string SecurityId { get; set; }
+        public int SecurityId { get; set; }
+        public int SecurityName { get; set; }
         public decimal BuyPrice { get; set; }
         public int Quantity { get; set; }
         public decimal PresentPrice { get; set; }

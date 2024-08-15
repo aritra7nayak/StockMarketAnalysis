@@ -6,7 +6,7 @@ namespace UserAnalyticsService.Models
     public class GenericDocument
     {
         [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
+        [BsonRepresentation(BsonType.String)]
         public Guid Id { get; set; }
 
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]

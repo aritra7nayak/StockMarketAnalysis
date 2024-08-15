@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using DataAcquisitionService.Services.IService;
 using DataAcquisitionService.Services;
 using DataAcquisitionService.Extensons;
+using DataAcquisitionService.Utlities;
+using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,7 +23,11 @@ builder.Services.AddScoped<ICorporateActionService, CorporateActionService>();
 builder.Services.AddScoped<ICorporateActionRunService, CorporateActionRunService>();
 builder.Services.AddScoped<ICorporateActionTypeService, CorporateActionTypeService>();
 builder.Services.AddScoped<ICorporateActionTypeRunService, CorporateActionTypeRunService>();
+builder.Services.AddScoped<ISyncService, SyncService>();
 
+builder.Services.Configure<TokenSettings>(builder.Configuration.GetSection("TokenSettings"));
+
+builder.Services.AddScoped<ISyncRepository, SyncRepository>();
 
 builder.Services.AddScoped<ICorporateActionTypeRepository, CorporateActionTypeRepository>();
 builder.Services.AddScoped<ICorporateActionTypeRunRepository, CorporateActionTypeRunRepository>();

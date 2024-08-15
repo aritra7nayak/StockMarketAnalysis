@@ -6,7 +6,7 @@ namespace UserAnalyticsService.Repository
 {
     public class GenericRepository<T> : IRepository<T> where T : class
     {
-        private readonly IMongoCollection<T> _collection;
+        protected readonly IMongoCollection<T> _collection;
         public GenericRepository(IMongoDatabase database, string collectionName)
         {
             _collection = database.GetCollection<T>(collectionName);

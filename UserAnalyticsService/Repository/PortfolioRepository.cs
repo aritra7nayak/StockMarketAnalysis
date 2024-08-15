@@ -6,9 +6,14 @@ namespace UserAnalyticsService.Repository
 {
     public class PortfolioRepository : GenericRepository<Portfolio>, IPortfolioRepository
     {
-        public PortfolioRepository(IMongoDatabase database, string collectionName)
-        : base(database, collectionName)
+        private readonly IMongoDatabase _database;
+
+        public PortfolioRepository(IMongoDatabase database)
+            : base(database, "Portfolios") // "Portfolios" is the collection name in MongoDB
         {
+            _database = database;
         }
+
+        public IMongoCollection<Portfolio> Portfolios => _collection;
     }
 }
