@@ -5,6 +5,7 @@ using UserAnalyticsService.Data;
 using UserAnalyticsService;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
+using UserAnalyticsService.Utilities;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +17,9 @@ MongoDbSettings.ConfigureMongoDb();
 
 // Register configuration settings
 builder.Services.Configure<MongoDbSettings>(builder.Configuration.GetSection("MongoDbSettings"));
+builder.Services.Configure<TokenSettings>(builder.Configuration.GetSection("TokenSettings"));
+
+SD.DataAcquisition = builder.Configuration["ServiceUrls:DataAcquisition"];
 
 // Register MongoDB Client and IMongoDatabase
 builder.Services.AddSingleton<IMongoClient, MongoClient>(sp =>

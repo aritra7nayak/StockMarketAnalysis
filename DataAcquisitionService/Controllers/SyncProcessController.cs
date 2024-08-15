@@ -35,6 +35,7 @@ namespace DataAcquisitionService.Controllers
             if (ModelState.IsValid)
             {
                 var response = _syncService.GetSecurityData(request.LastUpdatedDate);
+                response.Success = true;
                 return Ok(response);
             }
 
@@ -60,6 +61,7 @@ namespace DataAcquisitionService.Controllers
             if (ModelState.IsValid)
             {
                 var response = _syncService.GetPriceData(request.LastUpdatedDate);
+                response.Success = true;
                 return Ok(response);
             }
 
