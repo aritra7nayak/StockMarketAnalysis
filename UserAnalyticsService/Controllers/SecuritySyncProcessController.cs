@@ -5,7 +5,7 @@ using UserAnalyticsService.Service.IService;
 
 namespace UserAnalyticsService.Controllers
 {
-    [Route("api/DataAcquisition/PriceRuns")]
+    [Route("api/SecuritySyncProcess/")]
     [ApiController]
     public class SecuritySyncProcessController : ControllerBase
     {
@@ -39,40 +39,39 @@ namespace UserAnalyticsService.Controllers
             return _response;
         }
 
-        //[HttpGet]
-        //[Route("GetAllPriceRuns")]
-        //// GET: PriceController
-        //public async Task<ResponseDto> GetAllPriceRuns()
-        //{
-        //    try
-        //    {
+        [HttpGet]
+        [Route("GetAllSecuritySyncRuns")]
+        // GET: PriceController
+        public async Task<ResponseDto> GetAllSecuritySyncRuns()
+        {
+            try
+            {
 
-        //        IEnumerable<PriceRun> objList = await _priceRunService.GetAllPriceRunsAsync();
-        //        IEnumerable<PriceRunDto> priceRunDtos = objList.Select(s => new PriceRunDto
-        //        {
-        //            Id = s.Id,
-        //            Date = s.Date,
-        //            SourceType = s.SourceType,
-        //            InsertType = s.InsertType,
-        //            ErrorMessage = s.ErrorMessage,
-        //            ProcessType = s.ProcessType,
-        //            //CreatedBy = s.CreatedBy,
-        //            //ModifiedBy = s.ModifiedBy,
-        //            RowsAdded = s.RowsAdded,
-        //            RowsDeleted = s.RowsDeleted,
-        //            RowsUpdated = s.RowsUpdated,
-        //            RowsTotal = s.RowsTotal
+                IEnumerable<SecuritySyncRun> objList = await _syncProcess.GetAllSecuritySyncRuns();
+                IEnumerable<SecuritySyncRun> securitySyncRunDtos = objList.Select(s => new SecuritySyncRun
+                {
+                    Id = s.Id,
+                    ProcessUpdateTillDate = s.ProcessUpdateTillDate,
+                    UpdateTillDate = s.UpdateTillDate,
+                    CreatedOn = s.CreatedOn,
+                    ErrorMessage = s.ErrorMessage,
+                    ModifiedOn = s.ModifiedOn,
+                    CreatedBy = s.CreatedBy,
+                    ModifiedBy = s.ModifiedBy,
+                    RowsAdded = s.RowsAdded,
+                    RowsUpdated = s.RowsUpdated,
+                    RowsTotal = s.RowsTotal
 
-        //        }).OrderByDescending(o => o.Date);
+                }).OrderByDescending(o => o.Id);
 
-        //        _response.Result = priceRunDtos;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _response.IsSuccess = false;
-        //        _response.Message = ex.Message;
-        //    }
-        //    return _response;
-        //}
+                _response.Result = securitySyncRunDtos;
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.Message = ex.Message;
+            }
+            return _response;
+        }
     }
 }

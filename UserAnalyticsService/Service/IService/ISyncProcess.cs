@@ -7,6 +7,7 @@ namespace UserAnalyticsService.Service.IService
     {
         Task SyncPricesAsync();
         Task SyncSecuritiesAsync(SecuritySyncRun securitySyncRun);
+        Task<IEnumerable<SecuritySyncRun>> GetAllSecuritySyncRuns();
 
     }
 }

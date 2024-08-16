@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using System.Text;
 using UserAnalyticsService.DTOs;
 using UserAnalyticsService.Models;
+using UserAnalyticsService.Repository;
 using UserAnalyticsService.Repository.IRepository;
 using UserAnalyticsService.Service.IService;
 using UserAnalyticsService.Utilities;
@@ -186,6 +187,11 @@ namespace UserAnalyticsService.Service
             securitySyncRun.ModifiedOn = DateTime.Now;
            await  _securitySyncRunRepository.Add(securitySyncRun);
 
+        }
+
+        public async Task<IEnumerable<SecuritySyncRun>> GetAllSecuritySyncRuns()
+        {
+            return await _securitySyncRunRepository.GetAll();
         }
     }
 }
