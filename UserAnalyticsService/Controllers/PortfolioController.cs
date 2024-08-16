@@ -82,7 +82,7 @@ namespace UserAnalyticsService.Controllers
 
         // GET: api/portfolio/owner/{ownerId}
         [HttpGet("owner/{ownerId}")]
-        public async Task<ActionResult<IEnumerable<Portfolio>>> GetPortfoliosByOwner(Guid ownerId)
+        public async Task<ActionResult<IEnumerable<Portfolio>>> GetPortfoliosByOwner(string ownerId)
         {
             var portfolios = await _portfolioService.GetPortfoliosByOwner(ownerId);
             return Ok(portfolios);

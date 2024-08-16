@@ -15,8 +15,9 @@ namespace UserAnalyticsService.Repository
             _securityCollection = dbContext.Database.GetCollection<Security>("Securities");
         }
 
-        public async Task StoreSecuritiesAsync(List<SecurityData> securities)
+        public async Task<SecuritySyncRun> StoreSecuritiesAsync(List<SecurityData> securities)
         {
+            SecuritySyncRun securitySyncRun = new SecuritySyncRun();
             foreach (var securityData in securities)
             {
                 var filter = Builders<Security>.Filter.Eq(s => s.SecurityId, securityData.SecurityId);
@@ -32,6 +33,7 @@ namespace UserAnalyticsService.Repository
                                 .Set(nameof(Security.SecurityType), securityData.SecurityType);
 
                     await _securityCollection.UpdateOneAsync(filter, update);
+                    securitySyncRun.RowsUpdated += 1;
                 }
                 else
                 {
@@ -44,8 +46,10 @@ namespace UserAnalyticsService.Repository
                     };
 
                     await _securityCollection.InsertOneAsync(newSecurity);
+                    securitySyncRun.RowsUpdated += 1;
                 }
             }
+            return securitySyncRun;
         }
     }
 

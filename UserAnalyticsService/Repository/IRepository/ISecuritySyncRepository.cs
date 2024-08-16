@@ -1,10 +1,11 @@
 ﻿using UserAnalyticsService.DTOs;
+using UserAnalyticsService.Models;
 
 namespace UserAnalyticsService.Repository.IRepository
 {
     public interface ISecuritySyncRepository
     {
-        Task StoreSecuritiesAsync(List<SecurityData> securities);
+        Task<SecuritySyncRun> StoreSecuritiesAsync(List<SecurityData> securities);
 
     }
 }
