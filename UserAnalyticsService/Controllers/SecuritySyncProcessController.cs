@@ -54,6 +54,7 @@ namespace UserAnalyticsService.Controllers
                     ProcessUpdateTillDate = s.ProcessUpdateTillDate,
                     UpdateTillDate = s.UpdateTillDate,
                     CreatedOn = s.CreatedOn,
+                    IsSuccess = s.IsSuccess,
                     ErrorMessage = s.ErrorMessage,
                     ModifiedOn = s.ModifiedOn,
                     CreatedBy = s.CreatedBy,

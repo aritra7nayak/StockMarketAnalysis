@@ -12,8 +12,9 @@ namespace UserAnalyticsService.Data
 
         public DBContext(IConfiguration configuration)
         {
-            var client = new MongoClient(configuration.GetConnectionString("MongoDbConnection"));
-            _database = client.GetDatabase(configuration["MongoDbSettings:DatabaseName"]);
+            var client = new MongoClient(configuration.GetSection("MongoDbSettings:ConnectionString").Value);
+            _database = client.GetDatabase(configuration.GetSection("MongoDbSettings:DatabaseName").Value);
+
         }
 
         public IMongoDatabase Database => _database;

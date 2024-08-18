@@ -18,6 +18,10 @@ namespace UserAnalyticsService.Repository
         public async Task<SecuritySyncRun> StoreSecuritiesAsync(List<SecurityData> securities)
         {
             SecuritySyncRun securitySyncRun = new SecuritySyncRun();
+            securitySyncRun.RowsTotal = securities.Count;
+            securitySyncRun.RowsUpdated = 0;
+            securitySyncRun.RowsAdded = 0;
+
             foreach (var securityData in securities)
             {
                 var filter = Builders<Security>.Filter.Eq(s => s.SecurityId, securityData.SecurityId);
@@ -46,7 +50,7 @@ namespace UserAnalyticsService.Repository
                     };
 
                     await _securityCollection.InsertOneAsync(newSecurity);
-                    securitySyncRun.RowsUpdated += 1;
+                    securitySyncRun.RowsAdded += 1;
                 }
             }
             return securitySyncRun;
