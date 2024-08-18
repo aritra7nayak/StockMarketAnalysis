@@ -1,10 +1,7 @@
-﻿using Amazon.Runtime;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using System.Text;
 using UserAnalyticsService.DTOs;
 using UserAnalyticsService.Models;
-using UserAnalyticsService.Repository;
 using UserAnalyticsService.Repository.IRepository;
 using UserAnalyticsService.Service.IService;
 using UserAnalyticsService.Utilities;
@@ -35,8 +32,7 @@ namespace UserAnalyticsService.Service
 
         }
 
-        public async Task SyncPricesAsync()
-
+        public async Task SyncPricesAsync(PriceSyncRun priceSyncRun)
         {
             SyncPriceResponseViewModel apiResponseDto = new SyncPriceResponseViewModel();
 
@@ -91,11 +87,10 @@ namespace UserAnalyticsService.Service
             {
 
             }
-            PriceSyncRun priceSyncRun = new PriceSyncRun();
 
             if (apiResponseDto.Success == true)
             {
-            //    priceSyncRun = await _priceSyncRepository.StoreSecuritiesAsync(apiResponseDto.Data);
+                priceSyncRun = await _priceSyncRepository.StorePricesAsync(apiResponseDto.Data);
                 priceSyncRun.UpdateTillDate = apiResponseDto.LastUpdatedDate;
                 priceSyncRun.IsSuccess = true;
 
@@ -192,6 +187,10 @@ namespace UserAnalyticsService.Service
         public async Task<IEnumerable<SecuritySyncRun>> GetAllSecuritySyncRuns()
         {
             return await _securitySyncRunRepository.GetAll();
+        }
+        public async Task<IEnumerable<PriceSyncRun>> GetAllPriceSyncRuns()
+        {
+            return await _priceSyncRunRepository.GetAll();
         }
     }
 }

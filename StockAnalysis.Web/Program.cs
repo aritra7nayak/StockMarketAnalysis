@@ -19,6 +19,7 @@ SD.UserAnalytics = builder.Configuration["ServiceUrls:UserAnalytics"];
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ISecurityService, SecurityService>();
 builder.Services.AddScoped<ISecuritySyncService, SecuritySyncService>();
+builder.Services.AddScoped<IPriceSyncService, PriceSyncService>();
 builder.Services.AddScoped<IPriceService, PriceService>();
 builder.Services.AddScoped<ISecurityRunService, SecurityRunService>();
 builder.Services.AddScoped<IPriceRunService, PriceRunService>();

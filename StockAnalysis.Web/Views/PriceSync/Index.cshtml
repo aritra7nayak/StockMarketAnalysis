@@ -1,0 +1,72 @@
+﻿@model IEnumerable<PriceSyncProcessRuns>
+
+@{
+    ViewData["Title"] = "Price Runs";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ProcessUpdateTillDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UpdateTillDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsSuccess)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RowsTotal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RowsAdded)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RowsUpdated)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ErrorMessage)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProcessUpdateTillDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UpdateTillDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsSuccess)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RowsTotal)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RowsAdded)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RowsUpdated)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ErrorMessage)
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info">Details</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

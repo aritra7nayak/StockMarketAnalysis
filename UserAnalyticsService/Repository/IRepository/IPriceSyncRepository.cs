@@ -1,10 +1,11 @@
 ﻿using UserAnalyticsService.DTOs;
+using UserAnalyticsService.Models;
 
 namespace UserAnalyticsService.Repository.IRepository
 {
     public interface IPriceSyncRepository
     {
-        Task StorePricesAsync(List<PriceData> securities);
+        Task<PriceSyncRun> StorePricesAsync(List<PriceData> securities);
 
     }
 }
