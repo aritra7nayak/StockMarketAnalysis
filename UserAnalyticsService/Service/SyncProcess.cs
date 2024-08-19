@@ -16,9 +16,11 @@ namespace UserAnalyticsService.Service
         private readonly TokenSettings _tokenSettings;
         private readonly ISecuritySyncRunRepository _securitySyncRunRepository;
         private readonly IPriceSyncRunRepository _priceSyncRunRepository;
+        private readonly ILatestSyncProcessDetailRepository _latestSyncProcessDetailRepository;
 
 
         public SyncProcess(ISecuritySyncRepository securitySyncRepository, ISecuritySyncRunRepository securitySyncRunRepository,
+            ILatestSyncProcessDetailRepository latestSyncProcessDetailRepository,
             IPriceSyncRepository priceSyncRepository, IPriceSyncRunRepository priceSyncRunRepository,
             IHttpClientFactory httpClientFactory, IOptions<TokenSettings> tokenSettings)
         {
@@ -28,6 +30,7 @@ namespace UserAnalyticsService.Service
             _tokenSettings = tokenSettings.Value;
             _securitySyncRunRepository = securitySyncRunRepository;
             _priceSyncRunRepository = priceSyncRunRepository;
+            _latestSyncProcessDetailRepository = latestSyncProcessDetailRepository;
 
 
         }
@@ -37,6 +40,18 @@ namespace UserAnalyticsService.Service
             SyncPriceResponseViewModel apiResponseDto = new SyncPriceResponseViewModel();
 
             SyncRequestViewModel syncRequestViewModel = new SyncRequestViewModel();
+
+            DateTime? latestPriceSyncDate = await _latestSyncProcessDetailRepository.GetLatestSyncDate(SyncProcessTypeEnum.Price);
+
+            if (latestPriceSyncDate != null)
+            {
+                syncRequestViewModel.LastUpdatedDate = (DateTime)latestPriceSyncDate;
+            }
+            else
+            {
+                syncRequestViewModel.LastUpdatedDate = DateTime.Today.AddYears(-10);
+
+            }
 
             try
             {
@@ -48,7 +63,7 @@ namespace UserAnalyticsService.Service
                 string url = SD.DataAcquisition + "/api/SyncProcess/GetPrices";
 
 
-                syncRequestViewModel.LastUpdatedDate = DateTime.Today.AddYears(-10);
+               
                 syncRequestViewModel.Token = _tokenSettings.ApiToken;
 
 
@@ -92,6 +107,7 @@ namespace UserAnalyticsService.Service
             {
                 priceSyncRun = await _priceSyncRepository.StorePricesAsync(apiResponseDto.Data);
                 priceSyncRun.UpdateTillDate = apiResponseDto.LastUpdatedDate;
+                _latestSyncProcessDetailRepository.StoreLatestSyncProcessDetailAsync(SyncProcessTypeEnum.Price, apiResponseDto.LastUpdatedDate);
                 priceSyncRun.IsSuccess = true;
 
             }
@@ -101,7 +117,8 @@ namespace UserAnalyticsService.Service
                 priceSyncRun.ErrorMessage = apiResponseDto.Message;
             }
 
-            priceSyncRun.ProcessUpdateTillDate = syncRequestViewModel.LastUpdatedDate;
+            priceSyncRun.UpdateTillDate = DateTime.Now; 
+            priceSyncRun.ProcessUpdateTillDate = (DateTime)latestPriceSyncDate;
             priceSyncRun.CreatedOn = DateTime.Now;
             priceSyncRun.ModifiedOn = DateTime.Now;
             await _priceSyncRunRepository.Add(priceSyncRun);
@@ -113,6 +130,17 @@ namespace UserAnalyticsService.Service
             SyncSecurityResponseViewModel apiResponseDto = new SyncSecurityResponseViewModel();
 
             SyncRequestViewModel syncRequestViewModel = new SyncRequestViewModel();
+            DateTime? latestSecuritySyncDate = await _latestSyncProcessDetailRepository.GetLatestSyncDate(SyncProcessTypeEnum.Security);
+
+            if (latestSecuritySyncDate != null)
+            {
+                syncRequestViewModel.LastUpdatedDate = (DateTime)latestSecuritySyncDate;
+            }
+            else
+            {
+                syncRequestViewModel.LastUpdatedDate = DateTime.Today.AddYears(-10);
+
+            }
 
             try
             {
@@ -123,8 +151,7 @@ namespace UserAnalyticsService.Service
 
                 string url = SD.DataAcquisition + "/api/SyncProcess/GetSecurities";
 
-
-                syncRequestViewModel.LastUpdatedDate = DateTime.Today.AddYears(-10);
+               
                 syncRequestViewModel.Token = _tokenSettings.ApiToken;
 
 
@@ -168,6 +195,8 @@ namespace UserAnalyticsService.Service
             {
                 securitySyncRun = await _securitySyncRepository.StoreSecuritiesAsync(apiResponseDto.Data);
                 securitySyncRun.UpdateTillDate = apiResponseDto.LastUpdatedDate;
+                _latestSyncProcessDetailRepository.StoreLatestSyncProcessDetailAsync(SyncProcessTypeEnum.Security, apiResponseDto.LastUpdatedDate);
+
                 securitySyncRun.IsSuccess = true;
 
             }
@@ -176,8 +205,8 @@ namespace UserAnalyticsService.Service
                 securitySyncRun.IsSuccess = false;
                 securitySyncRun.ErrorMessage = apiResponseDto.Message;
             }
-           
-            securitySyncRun.ProcessUpdateTillDate = syncRequestViewModel.LastUpdatedDate;
+            securitySyncRun.UpdateTillDate = DateTime.Now;
+            securitySyncRun.ProcessUpdateTillDate = (DateTime)latestSecuritySyncDate;
             securitySyncRun.CreatedOn = DateTime.Now;
             securitySyncRun.ModifiedOn = DateTime.Now;
            await  _securitySyncRunRepository.Add(securitySyncRun);

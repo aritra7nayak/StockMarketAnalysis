@@ -45,6 +45,7 @@ builder.Services.AddScoped<ISecuritySyncRepository, SecuritySyncRepository>();
 builder.Services.AddScoped<ISecuritySyncRunRepository, SecuritySyncRunRepository>();
 builder.Services.AddScoped<IPriceSyncRunRepository,PriceSyncRunRepository>();
 builder.Services.AddScoped<IPriceSyncRepository,PriceSyncRepository>();
+builder.Services.AddScoped<ILatestSyncProcessDetailRepository,LatestSyncProcessDetailRepository>();
 builder.Services.AddScoped<ISyncProcess, SyncProcess>();
 builder.Services.AddScoped<PortfolioService>();
 
