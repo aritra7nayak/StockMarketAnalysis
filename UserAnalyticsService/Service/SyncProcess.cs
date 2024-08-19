@@ -221,5 +221,7 @@ namespace UserAnalyticsService.Service
         {
             return await _priceSyncRunRepository.GetAll();
         }
+
+
     }
 }

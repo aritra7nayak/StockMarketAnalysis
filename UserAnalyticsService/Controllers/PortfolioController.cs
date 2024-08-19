@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using UserAnalyticsService.DTOs;
 using UserAnalyticsService.Models;
 using UserAnalyticsService.Service;
 
@@ -10,10 +11,14 @@ namespace UserAnalyticsService.Controllers
     public class PortfolioController : ControllerBase
     {
         private readonly PortfolioService _portfolioService;
+        private ResponseDto _response;
+
 
         public PortfolioController(PortfolioService portfolioService)
         {
             _portfolioService = portfolioService;
+            _response = new ResponseDto();
+
         }
 
         // GET: api/portfolio
@@ -86,6 +91,25 @@ namespace UserAnalyticsService.Controllers
         {
             var portfolios = await _portfolioService.GetPortfoliosByOwner(ownerId);
             return Ok(portfolios);
+        }
+
+
+        [HttpGet]
+        [Route("GetSecurityAutoComplete/{name}")]
+        // GET: SecurityController
+        public async Task<ResponseDto> GetSecurityAutoComplete(string name)
+        {
+            try
+            {
+                IEnumerable<SecurityAutoCompleteDto> objList = await _portfolioService.GetSecuritiesAutocompleteAsync(name);
+           _response.Result = objList;
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.Message = ex.Message;
+            }
+            return _response;
         }
     }
 }

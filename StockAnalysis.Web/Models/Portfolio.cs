@@ -1,13 +1,10 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Bson;
-
-namespace UserAnalyticsService.Models
+﻿namespace StockAnalysis.Web.Models
 {
-    public class Portfolio: GenericDocument
+    public class Portfolio : GenericDocument
     {
-        public string Owner { get; set; }
+        public string? Owner { get; set; }
 
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
 
         public List<Stock>? Stocks { get; set; } = new List<Stock>();

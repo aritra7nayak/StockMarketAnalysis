@@ -1,4 +1,5 @@
-﻿using MongoDB.Driver;
+﻿using MongoDB.Bson;
+using MongoDB.Driver;
 using UserAnalyticsService.Data;
 using UserAnalyticsService.DTOs;
 using UserAnalyticsService.Models;
@@ -9,10 +10,12 @@ namespace UserAnalyticsService.Repository
     public class PriceSyncRepository : IPriceSyncRepository
     {
         private readonly IMongoCollection<Price> _priceCollection;
+        private readonly IMongoCollection<Security> _securitiesCollection;
 
         public PriceSyncRepository(DBContext dbContext)
         {
             _priceCollection = dbContext.Database.GetCollection<Price>("Prices");
+            _securitiesCollection = dbContext.Database.GetCollection<Security>("Securities");
         }
         public async Task<PriceSyncRun> StorePricesAsync(List<PriceData> prices)
         {
@@ -69,5 +72,75 @@ namespace UserAnalyticsService.Repository
             }
             return priceSyncRun;
         }
+
+        public async Task<List<int?>> FindMatchingSecuritiesAsync(string securityNamePart)
+        {
+
+            var filter = Builders<Security>.Filter.Regex(s => s.SecurityName, new BsonRegularExpression(securityNamePart, "i"));
+            var result = await _securitiesCollection.Find(filter).ToListAsync();
+
+            return result.Select(s => s.SecurityId).ToList();
+        }
+
+        public async Task<List<SecurityAutoCompleteDto>> GetSecuritiesAutocompleteAsync(string securityNamePart)
+        {
+            // Step 1: Find matching securities
+            var securityIds = await FindMatchingSecuritiesAsync(securityNamePart);
+
+            if (securityIds.Count == 0)
+            {
+                return new List<SecurityAutoCompleteDto>();
+            }
+
+            var pipeline = new BsonDocument[]
+            {
+        // Match documents in the Prices collection for the found SecurityIDs
+        new BsonDocument("$match", new BsonDocument("SecurityID", new BsonDocument("$in", new BsonArray(securityIds)))),
+        
+        // Sort documents by Date in descending order
+        new BsonDocument("$sort", new BsonDocument("Date", -1)),
+
+        // Group by SecurityID and Exchange, and get the latest document
+        new BsonDocument("$group", new BsonDocument
+        {
+            { "_id", new BsonDocument { { "SecurityID", "$SecurityID" }, { "Exchange", "$Exchange" } } },
+            { "LatestStock", new BsonDocument("$first", "$$ROOT") }
+        }),
+
+        // Replace root with the latest document
+        new BsonDocument("$replaceRoot", new BsonDocument("newRoot", "$LatestStock")),
+
+        // Lookup the Securities collection to join on SecurityID
+        new BsonDocument("$lookup", new BsonDocument
+        {
+            { "from", "Securities" },
+            { "localField", "SecurityID" },
+            { "foreignField", "SecurityId" },
+            { "as", "SecuritiesInfo" }
+        }),
+
+        // Unwind the SecuritiesInfo array
+        new BsonDocument("$unwind", "$SecuritiesInfo"),
+
+        // Project the desired fields
+        new BsonDocument("$project", new BsonDocument
+        {
+            { "SecurityID", 1 },
+            { "Name", "$SecuritiesInfo.SecurityName" },
+            { "Exchange", 1 },
+            { "LatestPrice", "$LTP" },  // Assuming LTP is the latest price
+            { "_id", 0 }  // Exclude _id from the output
+        })
+            };
+
+            // Execute the pipeline
+            var result = await _priceCollection.AggregateAsync<SecurityAutoCompleteDto>(pipeline);
+
+            // Convert the result to a list
+            return await result.ToListAsync();
+        }
+
+
+
     }
 }

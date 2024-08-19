@@ -1,4 +1,6 @@
-﻿using UserAnalyticsService.Models;
+﻿using UserAnalyticsService.DTOs;
+using UserAnalyticsService.Models;
+using UserAnalyticsService.Repository;
 using UserAnalyticsService.Repository.IRepository;
 
 namespace UserAnalyticsService.Service
@@ -6,10 +8,13 @@ namespace UserAnalyticsService.Service
     public class PortfolioService
     {
         private readonly IPortfolioRepository _portfolioRepository;
+        private readonly IPriceSyncRepository _priceSyncRepository;
 
-        public PortfolioService(IPortfolioRepository portfolioRepository)
+
+        public PortfolioService(IPortfolioRepository portfolioRepository , IPriceSyncRepository priceSyncRepository)
         {
             _portfolioRepository = portfolioRepository;
+            _priceSyncRepository = priceSyncRepository;
         }
 
         // Retrieve all portfolios
@@ -46,6 +51,11 @@ namespace UserAnalyticsService.Service
         public async Task<IEnumerable<Portfolio>> GetPortfoliosByOwner(string ownerId)
         {
             return await _portfolioRepository.Find(p => p.Owner == ownerId);
+        }
+
+        public async Task<List<SecurityAutoCompleteDto>> GetSecuritiesAutocompleteAsync(string securityNamePart)
+        {
+            return await _priceSyncRepository.GetSecuritiesAutocompleteAsync(securityNamePart);
         }
     }
 }
