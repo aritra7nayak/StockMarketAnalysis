@@ -48,9 +48,9 @@ namespace UserAnalyticsService.Service
         }
 
         // Example of a specific method that might be unique to Portfolio
-        public async Task<IEnumerable<Portfolio>> GetPortfoliosByOwner(string ownerId)
+        public async Task<IEnumerable<Portfolio>> GetPortfoliosByOwner(string name)
         {
-            return await _portfolioRepository.Find(p => p.Owner == ownerId);
+            return await _portfolioRepository.Find(p => p.Name == name);
         }
 
         public async Task<List<SecurityAutoCompleteDto>> GetSecuritiesAutocompleteAsync(string securityNamePart)

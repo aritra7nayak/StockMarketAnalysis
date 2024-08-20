@@ -5,9 +5,9 @@ namespace UserAnalyticsService.Models
 {
     public class Portfolio: GenericDocument
     {
-        public string Owner { get; set; }
+        public string? Owner { get; set; }
 
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
 
         public List<Stock>? Stocks { get; set; } = new List<Stock>();
@@ -16,7 +16,7 @@ namespace UserAnalyticsService.Models
         {
             get
             {
-                decimal totalBuyValue = 0;
+                decimal? totalBuyValue = 0;
                 foreach (var stock in Stocks)
                 {
                     totalBuyValue += stock.BuyPrice * stock.Quantity;
@@ -29,7 +29,7 @@ namespace UserAnalyticsService.Models
         {
             get
             {
-                decimal totalNowValue = 0;
+                decimal? totalNowValue = 0;
                 foreach (var stock in Stocks)
                 {
                     totalNowValue += stock.PresentPrice * stock.Quantity;
@@ -41,10 +41,10 @@ namespace UserAnalyticsService.Models
 
     public class Stock
     {
-        public int SecurityId { get; set; }
-        public int SecurityName { get; set; }
-        public decimal BuyPrice { get; set; }
-        public int Quantity { get; set; }
-        public decimal PresentPrice { get; set; }
+        public int? SecurityId { get; set; }
+        public int? SecurityName { get; set; }
+        public decimal? BuyPrice { get; set; }
+        public int? Quantity { get; set; }
+        public decimal? PresentPrice { get; set; }
     }
 }

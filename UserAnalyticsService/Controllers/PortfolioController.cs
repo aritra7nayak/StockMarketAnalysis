@@ -42,7 +42,7 @@ namespace UserAnalyticsService.Controllers
         }
 
         // POST: api/portfolio
-        [HttpPost]
+        [HttpPost("AddPortfolio")]
         public async Task<ActionResult> AddPortfolio([FromBody] Portfolio portfolio)
         {
             if (portfolio == null)
@@ -86,11 +86,22 @@ namespace UserAnalyticsService.Controllers
         }
 
         // GET: api/portfolio/owner/{ownerId}
-        [HttpGet("owner/{ownerId}")]
-        public async Task<ActionResult<IEnumerable<Portfolio>>> GetPortfoliosByOwner(string ownerId)
+        [HttpGet("GetPortfoliosByOwner")]
+        public async Task<ResponseDto> GetPortfoliosByOwner()
         {
-            var portfolios = await _portfolioService.GetPortfoliosByOwner(ownerId);
-            return Ok(portfolios);
+            try
+            {
+                string ownerId = User.Identity.Name;
+                var portfolios = await _portfolioService.GetPortfoliosByOwner(ownerId);
+                _response.Result = portfolios;
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.Message = ex.Message;
+            }
+            return _response;
+
         }
 
 

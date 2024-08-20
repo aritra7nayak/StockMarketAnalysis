@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using StockAnalysis.Web.Models;
 using StockAnalysis.Web.Service.IService;
+using System.Security.Claims;
 
 namespace StockAnalysis.Web.Controllers
 {
@@ -13,6 +15,28 @@ namespace StockAnalysis.Web.Controllers
         {
             _portfolioService = portfolioService;
         }
+
+        public async Task<IActionResult> Index()
+        {
+            List<Portfolio>? list = new();
+            ResponseDto? response = new();
+
+            
+                response = await _portfolioService.GetUserPortfoliosAsync();
+            
+
+            if (response != null && response.IsSuccess)
+            {
+
+                list = JsonConvert.DeserializeObject<List<Portfolio>>(Convert.ToString(response.Result));
+            }
+            else
+            {
+                TempData["error"] = response?.Message;
+            }
+            return View(list);
+        }
+
 
         [HttpGet]
         public IActionResult Create()
@@ -29,6 +53,7 @@ namespace StockAnalysis.Web.Controllers
                 Portfolio portfolio = new Portfolio
                 {
                     Name = model.Name,
+                    Owner = User.Identity.Name,
                     Stocks = model.Stocks.Select(s => new Stock
                     {
                         SecurityId = s.SecurityId,
@@ -38,8 +63,25 @@ namespace StockAnalysis.Web.Controllers
                     }).ToList()
                 };
 
-                // Save portfolio using service
-                //  await _portfolioService.CreatePortfolioAsync(portfolio);
+                try
+                {
+                    ResponseDto? response = await _portfolioService.AddPortfolioAsync(portfolio);
+
+                    if (response != null && response.IsSuccess)
+                    {
+                        TempData["success"] = "Portfolio Created Successfully";
+
+                        return RedirectToAction(nameof(Index));
+                    }
+                    else
+                    {
+                        TempData["error"] = response?.Message;
+                    }
+                }
+                catch
+                {
+                    return View();
+                }
 
                 return RedirectToAction("Index");
             }

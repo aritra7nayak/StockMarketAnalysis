@@ -13,12 +13,51 @@ namespace StockAnalysis.Web.Service
             _baseService = baseService;
         }
 
+        public async Task<ResponseDto?> AddPortfolioAsync(Portfolio portfolio)
+        {
+            return await _baseService.SendAsync(new RequestDto()
+            {
+                ApiType = Utility.SD.ApiType.POST,
+                Data = portfolio,
+                Url = SD.UserAnalytics + "/api/Portfolio/AddPortfolio"
+            });
+        }
+
+        public Task<ResponseDto?> DeletePortfolioAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<ResponseDto?> GetUserPortfoliosAsync()
+        {
+            return await _baseService.SendAsync(new RequestDto()
+            {
+                ApiType = Utility.SD.ApiType.GET,
+                Url = SD.UserAnalytics + "/api/Portfolio/GetPortfoliosByOwner"
+            });
+        }
+
+        public Task<ResponseDto?> GetPortfolioByIdAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<ResponseDto?> GetSecurityAutoComplete(string name)
         {
             return await _baseService.SendAsync(new RequestDto()
             {
                 ApiType = Utility.SD.ApiType.GET,
                 Url = SD.UserAnalytics + "/api/Portfolio/GetSecurityAutoComplete/"+name
+            });
+        }
+
+        public async Task<ResponseDto?> UpdatePortfolioAsync(Portfolio portfolio)
+        {
+            return await _baseService.SendAsync(new RequestDto()
+            {
+                ApiType = Utility.SD.ApiType.POST,
+                Data = portfolio,
+                Url = SD.UserAnalytics + "/api/Portfolio/Edit"
             });
         }
     }

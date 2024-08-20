@@ -13,7 +13,7 @@
         {
             get
             {
-                decimal totalBuyValue = 0;
+                decimal? totalBuyValue = 0;
                 foreach (var stock in Stocks)
                 {
                     totalBuyValue += stock.BuyPrice * stock.Quantity;
@@ -26,7 +26,7 @@
         {
             get
             {
-                decimal totalNowValue = 0;
+                decimal? totalNowValue = 0;
                 foreach (var stock in Stocks)
                 {
                     totalNowValue += stock.PresentPrice * stock.Quantity;
@@ -38,10 +38,10 @@
 
     public class Stock
     {
-        public int SecurityId { get; set; }
-        public int SecurityName { get; set; }
-        public decimal BuyPrice { get; set; }
-        public int Quantity { get; set; }
-        public decimal PresentPrice { get; set; }
+        public int? SecurityId { get; set; }
+        public int? SecurityName { get; set; }
+        public decimal? BuyPrice { get; set; }
+        public int? Quantity { get; set; }
+        public decimal? PresentPrice { get; set; }
     }
 }
