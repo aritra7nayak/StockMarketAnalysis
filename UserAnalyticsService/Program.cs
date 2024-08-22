@@ -7,11 +7,13 @@ using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using UserAnalyticsService.Utilities;
 using UserAnalyticsService.Service.IService;
+using UserAnalyticsService.Extensons;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllers();
+
 
 // Configure MongoDB globally for Guid as String
 MongoDbSettings.ConfigureMongoDb();
@@ -38,6 +40,8 @@ builder.Services.AddScoped(sp =>
     return client.GetDatabase(settings.DatabaseName);
 });
 
+
+
 // Register MongoDB and repositories
 builder.Services.AddSingleton<DBContext>();
 builder.Services.AddScoped<IPortfolioRepository, PortfolioRepository>();
@@ -48,6 +52,14 @@ builder.Services.AddScoped<IPriceSyncRepository,PriceSyncRepository>();
 builder.Services.AddScoped<ILatestSyncProcessDetailRepository,LatestSyncProcessDetailRepository>();
 builder.Services.AddScoped<ISyncProcess, SyncProcess>();
 builder.Services.AddScoped<PortfolioService>();
+
+
+builder.Services.AddEndpointsApiExplorer();
+
+builder.AddAppAuthentication();
+
+
+builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
@@ -62,7 +74,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

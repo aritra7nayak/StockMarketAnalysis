@@ -25,7 +25,7 @@
     <form method="post" asp-action="Create">
         <div class="form-group">
             <label for="PortfolioName">Portfolio Name:</label>
-            <input type="text" class="form-control" id="PortfolioName" name="PortfolioName" required />
+            <input type="text" class="form-control" id="PortfolioName" name="Name" required />
         </div>
 
         <h3>Stocks</h3>
@@ -89,7 +89,22 @@
 
     // Event delegation for removing stock rows
     $(document).on('click', '.remove-stock', function () {
+        // Remove the selected row
         $(this).closest('.stock-item').remove();
+
+        // Re-index the remaining rows
+        $('#stock-list .stock-item').each(function (newIndex) {
+            // Loop through all input fields within the stock-item
+            $(this).find('input').each(function () {
+                // Update 'name' attributes to reflect new index for all input fields
+                var name = $(this).attr('name');
+                var newName = name.replace(/\[\d+\]/, `[${newIndex}]`);
+                $(this).attr('name', newName);
+            });
+        });
+
+        // Decrement stockIndex to keep it in sync
+        stockIndex--;
     });
 
     // Function to activate autocomplete for a specific stock item

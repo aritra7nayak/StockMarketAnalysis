@@ -1,13 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using UserAnalyticsService.DTOs;
 using UserAnalyticsService.Models;
 using UserAnalyticsService.Service;
 
 namespace UserAnalyticsService.Controllers
 {
-
-    [ApiController]
     [Route("api/[controller]")]
+    [ApiController]
+    [Authorize]
     public class PortfolioController : ControllerBase
     {
         private readonly PortfolioService _portfolioService;
@@ -43,12 +44,24 @@ namespace UserAnalyticsService.Controllers
 
         // POST: api/portfolio
         [HttpPost("AddPortfolio")]
-        public async Task<ActionResult> AddPortfolio([FromBody] Portfolio portfolio)
+        public async Task<ActionResult> AddPortfolio([FromBody] Portfolio model)
         {
-            if (portfolio == null)
+            if (model == null)
             {
                 return BadRequest();
             }
+            Portfolio portfolio = new Portfolio
+            {
+                Name = model.Name,
+                Owner = model.Name,
+                Stocks = model.Stocks.Select(s => new Stock
+                {
+                    SecurityId = s.SecurityId,
+                    Quantity = s.Quantity,
+                    BuyPrice = s.BuyPrice,
+                    PresentPrice = s.PresentPrice
+                }).ToList()
+            };
 
             await _portfolioService.AddPortfolio(portfolio);
             return CreatedAtAction(nameof(GetPortfolioById), new { id = portfolio.Id }, portfolio);
@@ -86,7 +99,8 @@ namespace UserAnalyticsService.Controllers
         }
 
         // GET: api/portfolio/owner/{ownerId}
-        [HttpGet("GetPortfoliosByOwner")]
+        [HttpGet]
+        [Route("GetPortfoliosByOwner")]
         public async Task<ResponseDto> GetPortfoliosByOwner()
         {
             try

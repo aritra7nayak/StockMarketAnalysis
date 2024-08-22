@@ -47,13 +47,15 @@ namespace StockAnalysis.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(Portfolio model)
         {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Gets the user ID from the claims
+
             if (ModelState.IsValid)
             {
                 // Map ViewModel to your Portfolio entity
                 Portfolio portfolio = new Portfolio
                 {
                     Name = model.Name,
-                    Owner = User.Identity.Name,
+                    Owner = userId,
                     Stocks = model.Stocks.Select(s => new Stock
                     {
                         SecurityId = s.SecurityId,

@@ -7,7 +7,7 @@ namespace StockAnalysis.Web.Models
     {
         [BsonId]
         [BsonRepresentation(BsonType.String)]
-        public Guid? Id { get; set; }
+        public Guid Id { get; set; }
 
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime? CreatedOn { get; set; } = DateTime.Now;

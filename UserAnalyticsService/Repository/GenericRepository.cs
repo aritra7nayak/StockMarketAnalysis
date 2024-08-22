@@ -23,7 +23,15 @@ namespace UserAnalyticsService.Repository
 
         public async Task Add(T entity)
         {
-            await _collection.InsertOneAsync(entity);
+            try
+            {
+                await _collection.InsertOneAsync(entity);
+
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
         public async Task<bool> Update(T entity)
