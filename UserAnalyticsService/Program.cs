@@ -23,8 +23,9 @@ builder.Services.Configure<MongoDbSettings>(builder.Configuration.GetSection("Mo
 builder.Services.Configure<TokenSettings>(builder.Configuration.GetSection("TokenSettings"));
 
 SD.DataAcquisition = builder.Configuration["ServiceUrls:DataAcquisition"];
-builder.Services.AddHttpClient();
 
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddHttpClient();
 
 // Register MongoDB Client and IMongoDatabase
 builder.Services.AddSingleton<IMongoClient, MongoClient>(sp =>

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using UserAnalyticsService.DTOs;
 using UserAnalyticsService.Models;
 using UserAnalyticsService.Service;
@@ -46,6 +47,8 @@ namespace UserAnalyticsService.Controllers
         [HttpPost("AddPortfolio")]
         public async Task<ActionResult> AddPortfolio([FromBody] Portfolio model)
         {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Gets the user ID from the claims
+
             if (model == null)
             {
                 return BadRequest();
@@ -53,7 +56,7 @@ namespace UserAnalyticsService.Controllers
             Portfolio portfolio = new Portfolio
             {
                 Name = model.Name,
-                Owner = model.Name,
+                Owner = userId,
                 Stocks = model.Stocks.Select(s => new Stock
                 {
                     SecurityId = s.SecurityId,
@@ -105,8 +108,8 @@ namespace UserAnalyticsService.Controllers
         {
             try
             {
-                string ownerId = User.Identity.Name;
-                var portfolios = await _portfolioService.GetPortfoliosByOwner(ownerId);
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Gets the user ID from the claims
+                var portfolios = await _portfolioService.GetPortfoliosByOwner(userId);
                 _response.Result = portfolios;
             }
             catch (Exception ex)
