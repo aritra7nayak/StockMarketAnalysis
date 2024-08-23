@@ -1,4 +1,6 @@
-﻿using UserAnalyticsService.DTOs;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using System.Xml.Linq;
+using UserAnalyticsService.DTOs;
 using UserAnalyticsService.Models;
 using UserAnalyticsService.Repository;
 using UserAnalyticsService.Repository.IRepository;
@@ -24,9 +26,10 @@ namespace UserAnalyticsService.Service
         }
 
         // Retrieve a specific portfolio by ID
-        public async Task<Portfolio> GetPortfolioById(Guid id)
+        public async Task<Portfolio> GetPortfolioById(Guid id, string userId)
         {
-            return await _portfolioRepository.GetById(id);
+            var result = await _portfolioRepository.Find(p => p.Owner == userId && p.Id==id);
+            return result.FirstOrDefault();
         }
 
         // Add a new portfolio
@@ -38,7 +41,16 @@ namespace UserAnalyticsService.Service
         // Update an existing portfolio
         public async Task<bool> UpdatePortfolio(Portfolio portfolio)
         {
-            return await _portfolioRepository.Update(portfolio);
+            var result = await _portfolioRepository.Find(p => p.Owner == portfolio.Owner && p.Id == portfolio.Id);
+            if (result != null)
+            {
+                return await _portfolioRepository.Update(portfolio);
+
+            }
+            else
+            {
+                return false;
+            }
         }
 
         // Delete a portfolio by ID

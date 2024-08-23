@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using StockAnalysis.Web.Models;
 using StockAnalysis.Web.Service.IService;
+using System.Collections.Generic;
 using System.Security.Claims;
 
 namespace StockAnalysis.Web.Controllers
@@ -90,6 +91,80 @@ namespace StockAnalysis.Web.Controllers
 
             return View(model);
         }
+
+
+        public async Task<ActionResult>  Edit(Guid id)
+        {
+            Portfolio list = new();
+            var portfolio = await _portfolioService.GetPortfolioByIdAsync(id);
+            if (portfolio != null && portfolio.IsSuccess)
+            {
+
+                list = JsonConvert.DeserializeObject<Portfolio>(Convert.ToString(portfolio.Result));
+            }
+            else
+            {
+                TempData["error"] = portfolio?.Message;
+            }
+            return View(list);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(Portfolio model)
+        {
+            Portfolio list = new();
+
+            if (ModelState.IsValid)
+            {
+                var existingPortfolio = await _portfolioService.GetPortfolioByIdAsync(model.Id);
+
+                if (existingPortfolio != null && existingPortfolio.IsSuccess)
+                {
+
+                    list = JsonConvert.DeserializeObject<Portfolio>(Convert.ToString(existingPortfolio.Result));
+                }
+                else
+                {
+                    TempData["error"] = existingPortfolio?.Message;
+                }
+
+                // Update the portfolio with the new data
+                list.Name = model.Name;
+                list.Stocks = model.Stocks.Select(s => new Stock
+                {
+                    SecurityId = s.SecurityId,
+                    Quantity = s.Quantity,
+                    BuyPrice = s.BuyPrice,
+                    PresentPrice = s.PresentPrice
+                }).ToList();
+
+                try
+                {
+                    ResponseDto? response = await _portfolioService.UpdatePortfolioAsync(list);
+
+                    if (response != null && response.IsSuccess)
+                    {
+                        TempData["success"] = "Portfolio Updated Successfully";
+                        return RedirectToAction(nameof(Index));
+                    }
+                    else
+                    {
+                        TempData["error"] = response?.Message;
+                    }
+                }
+                catch
+                {
+                    return View();
+                }
+
+                return RedirectToAction("Index");
+            }
+
+            return View(model);
+        }
+
+
+
 
         public async Task<IActionResult> GetSecurityAutoComplete(string name)
         {

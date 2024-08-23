@@ -32,10 +32,11 @@ namespace UserAnalyticsService.Controllers
         }
 
         // GET: api/portfolio/{id}
-        [HttpGet("{id}")]
+        [HttpGet("/GetPortfolioById/{id}")]
         public async Task<ActionResult<Portfolio>> GetPortfolioById(Guid id)
         {
-            var portfolio = await _portfolioService.GetPortfolioById(id);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var portfolio = await _portfolioService.GetPortfolioById(id, userId);
             if (portfolio == null)
             {
                 return NotFound();
@@ -72,9 +73,9 @@ namespace UserAnalyticsService.Controllers
 
         // PUT: api/portfolio/{id}
         [HttpPut("{id}")]
-        public async Task<ActionResult> UpdatePortfolio(Guid id, [FromBody] Portfolio portfolio)
+        public async Task<ActionResult> UpdatePortfolio([FromBody] Portfolio portfolio)
         {
-            if (portfolio == null || portfolio.Id != id)
+            if (portfolio == null)
             {
                 return BadRequest();
             }

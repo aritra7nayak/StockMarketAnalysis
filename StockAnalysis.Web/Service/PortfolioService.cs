@@ -37,9 +37,13 @@ namespace StockAnalysis.Web.Service
             });
         }
 
-        public Task<ResponseDto?> GetPortfolioByIdAsync(int id)
+        public async Task<ResponseDto?> GetPortfolioByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            return await _baseService.SendAsync(new RequestDto()
+            {
+                ApiType = Utility.SD.ApiType.GET,
+                Url = SD.UserAnalytics + "/api/Portfolio/GetPortfolioById/" + id,
+            });
         }
 
         public async Task<ResponseDto?> GetSecurityAutoComplete(string name)

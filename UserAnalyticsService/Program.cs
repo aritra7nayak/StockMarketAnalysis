@@ -12,7 +12,7 @@ using UserAnalyticsService.Extensons;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllers();
+builder.Services.AddControllersWithViews();
 
 
 // Configure MongoDB globally for Guid as String

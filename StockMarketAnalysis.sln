@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StockAnalysis.Web", "StockA
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Analytics.GatewaySolutions", "Analytics.GatewaySolutions\Analytics.GatewaySolutions.csproj", "{A3101A5C-CF1A-4E94-8139-DA4248F13B7A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserAnalyticsService", "UserAnalyticsService\UserAnalyticsService.csproj", "{680C743E-F7CC-4AB3-9D4C-3EC93CF6753D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserAnalyticsService", "UserAnalyticsService\UserAnalyticsService.csproj", "{680C743E-F7CC-4AB3-9D4C-3EC93CF6753D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
