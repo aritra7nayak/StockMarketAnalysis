@@ -32,16 +32,23 @@ namespace UserAnalyticsService.Controllers
         }
 
         // GET: api/portfolio/{id}
-        [HttpGet("/GetPortfolioById/{id}")]
-        public async Task<ActionResult<Portfolio>> GetPortfolioById(Guid id)
+        [HttpGet]
+        [Route("GetPortfolioById/{id}")]
+
+        public async Task<ResponseDto> GetPortfolioById(Guid id)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var portfolio = await _portfolioService.GetPortfolioById(id, userId);
-            if (portfolio == null)
+            try
             {
-                return NotFound();
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var portfolio = await _portfolioService.GetPortfolioById(id, userId);
+                _response.Result = portfolio;
             }
-            return Ok(portfolio);
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.Message = ex.Message;
+            }
+            return _response;
         }
 
         // POST: api/portfolio
@@ -61,6 +68,8 @@ namespace UserAnalyticsService.Controllers
                 Stocks = model.Stocks.Select(s => new Stock
                 {
                     SecurityId = s.SecurityId,
+                    SecurityName = s.SecurityName,
+
                     Quantity = s.Quantity,
                     BuyPrice = s.BuyPrice,
                     PresentPrice = s.PresentPrice
@@ -72,7 +81,7 @@ namespace UserAnalyticsService.Controllers
         }
 
         // PUT: api/portfolio/{id}
-        [HttpPut("{id}")]
+        [HttpPost("UpdatePortfolio")]
         public async Task<ActionResult> UpdatePortfolio([FromBody] Portfolio portfolio)
         {
             if (portfolio == null)
@@ -93,7 +102,9 @@ namespace UserAnalyticsService.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeletePortfolio(Guid id)
         {
-            var deleted = await _portfolioService.DeletePortfolio(id);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var portfolio = await _portfolioService.GetPortfolioById(id, userId);
+            var deleted = await _portfolioService.DeletePortfolio(portfolio.Id);
             if (!deleted)
             {
                 return NotFound();

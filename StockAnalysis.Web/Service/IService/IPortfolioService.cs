@@ -9,7 +9,7 @@ namespace StockAnalysis.Web.Service.IService
         Task<ResponseDto?> GetPortfolioByIdAsync(Guid id);
         Task<ResponseDto?> AddPortfolioAsync(Portfolio portfolio);
         Task<ResponseDto?> UpdatePortfolioAsync(Portfolio portfolio);
-        Task<ResponseDto?> DeletePortfolioAsync(int id);
+        Task<ResponseDto?> DeletePortfolioAsync(Guid id);
 
     }
 }

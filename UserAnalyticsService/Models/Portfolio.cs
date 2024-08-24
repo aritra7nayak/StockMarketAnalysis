@@ -42,7 +42,7 @@ namespace UserAnalyticsService.Models
     public class Stock
     {
         public int? SecurityId { get; set; }
-        public int? SecurityName { get; set; }
+        public string? SecurityName { get; set; }
         public decimal? BuyPrice { get; set; }
         public int? Quantity { get; set; }
         public decimal? PresentPrice { get; set; }

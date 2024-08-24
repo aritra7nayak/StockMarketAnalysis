@@ -23,9 +23,13 @@ namespace StockAnalysis.Web.Service
             });
         }
 
-        public Task<ResponseDto?> DeletePortfolioAsync(int id)
+        public async Task<ResponseDto?> DeletePortfolioAsync(Guid id)
         {
-            throw new NotImplementedException();
+            return await _baseService.SendAsync(new RequestDto()
+            {
+                ApiType = Utility.SD.ApiType.DELETE,
+                Url = SD.UserAnalytics + "/api/Portfolio/"+id
+            });
         }
 
         public async Task<ResponseDto?> GetUserPortfoliosAsync()
@@ -61,7 +65,7 @@ namespace StockAnalysis.Web.Service
             {
                 ApiType = Utility.SD.ApiType.POST,
                 Data = portfolio,
-                Url = SD.UserAnalytics + "/api/Portfolio/Edit"
+                Url = SD.UserAnalytics + "/api/Portfolio/UpdatePortfolio"
             });
         }
     }

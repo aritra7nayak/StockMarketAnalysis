@@ -55,8 +55,8 @@
                 <div class="stock-item row mb-2">
                     <div class="col-md-3">
                         <label>Stock Name:</label>
-                        <input type="text" name="Stocks[${stockIndex}].StockName" class="form-control stock-name-autocomplete" required />
-                        <input type="hidden" name="Stocks[${stockIndex}].SecurityId" class="stock-id" />
+                            <input type="text" name="Stocks[${stockIndex}].SecurityName" class="form-control stock-name-autocomplete" required />
+                            <input type="hidden" name="Stocks[${stockIndex}].SecurityId" class="stock-id" />
                     </div>
 
                     <div class="col-md-2">
@@ -109,7 +109,7 @@
 
     // Function to activate autocomplete for a specific stock item
     function activateAutocomplete(index) {
-        $(`input[name="Stocks[${index}].StockName"]`).autocomplete({
+        $(`input[name="Stocks[${index}].SecurityName"]`).autocomplete({
             source: function (request, response) {
                 $.ajax({
                     url: '/Portfolio/GetSecurityAutoComplete',  // Replace with your autocomplete API URL

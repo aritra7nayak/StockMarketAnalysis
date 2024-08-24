@@ -60,6 +60,7 @@ namespace StockAnalysis.Web.Controllers
                     Stocks = model.Stocks.Select(s => new Stock
                     {
                         SecurityId = s.SecurityId,
+                        SecurityName = s.SecurityName,
                         Quantity = s.Quantity,
                         BuyPrice = s.BuyPrice,
                         PresentPrice = s.PresentPrice
@@ -133,6 +134,7 @@ namespace StockAnalysis.Web.Controllers
                 list.Stocks = model.Stocks.Select(s => new Stock
                 {
                     SecurityId = s.SecurityId,
+                    SecurityName = s.SecurityName,
                     Quantity = s.Quantity,
                     BuyPrice = s.BuyPrice,
                     PresentPrice = s.PresentPrice
@@ -164,6 +166,49 @@ namespace StockAnalysis.Web.Controllers
         }
 
 
+        [HttpGet]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            Portfolio portfolio = new();
+            var response = await _portfolioService.GetPortfolioByIdAsync(id);
+
+            if (response != null && response.IsSuccess)
+            {
+                portfolio = JsonConvert.DeserializeObject<Portfolio>(Convert.ToString(response.Result));
+            }
+            else
+            {
+                TempData["error"] = response?.Message;
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(portfolio);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        {
+            try
+            {
+                var response = await _portfolioService.DeletePortfolioAsync(id);
+
+                if (response != null && response.IsSuccess)
+                {
+                    TempData["success"] = "Portfolio deleted successfully.";
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    TempData["error"] = response?.Message;
+                }
+            }
+            catch
+            {
+                TempData["error"] = "An error occurred while deleting the portfolio.";
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
 
 
         public async Task<IActionResult> GetSecurityAutoComplete(string name)
