@@ -16,11 +16,14 @@ namespace UserAnalyticsService.Service
         private readonly TokenSettings _tokenSettings;
         private readonly ISecuritySyncRunRepository _securitySyncRunRepository;
         private readonly IPriceSyncRunRepository _priceSyncRunRepository;
+        private readonly IPortfolioRepository _portfolioRepository;
         private readonly ILatestSyncProcessDetailRepository _latestSyncProcessDetailRepository;
+
 
 
         public SyncProcess(ISecuritySyncRepository securitySyncRepository, ISecuritySyncRunRepository securitySyncRunRepository,
             ILatestSyncProcessDetailRepository latestSyncProcessDetailRepository,
+            IPortfolioRepository portfolioRepository,
             IPriceSyncRepository priceSyncRepository, IPriceSyncRunRepository priceSyncRunRepository,
             IHttpClientFactory httpClientFactory, IOptions<TokenSettings> tokenSettings)
         {
@@ -30,6 +33,7 @@ namespace UserAnalyticsService.Service
             _tokenSettings = tokenSettings.Value;
             _securitySyncRunRepository = securitySyncRunRepository;
             _priceSyncRunRepository = priceSyncRunRepository;
+            _portfolioRepository = portfolioRepository;
             _latestSyncProcessDetailRepository = latestSyncProcessDetailRepository;
 
 
@@ -46,6 +50,7 @@ namespace UserAnalyticsService.Service
             if (latestPriceSyncDate != null)
             {
                 syncRequestViewModel.LastUpdatedDate = (DateTime)latestPriceSyncDate;
+                syncRequestViewModel.LastUpdatedDate = syncRequestViewModel.LastUpdatedDate.AddMinutes(331);
             }
             else
             {
@@ -103,9 +108,17 @@ namespace UserAnalyticsService.Service
 
             }
 
-            if (apiResponseDto.Success == true)
+            if (apiResponseDto.Success == true && apiResponseDto.Data !=null )
             {
-                priceSyncRun = await _priceSyncRepository.StorePricesAsync(apiResponseDto.Data);
+                try
+                {
+                    priceSyncRun = await _priceSyncRepository.StorePricesAsync(apiResponseDto.Data);
+                    _portfolioRepository.UpdatePresentPricesAsync(apiResponseDto.Data);
+                }
+                catch(Exception ex)
+                {
+                
+                }
                 priceSyncRun.UpdateTillDate = apiResponseDto.LastUpdatedDate;
                 _latestSyncProcessDetailRepository.StoreLatestSyncProcessDetailAsync(SyncProcessTypeEnum.Price, apiResponseDto.LastUpdatedDate);
                 priceSyncRun.IsSuccess = true;
@@ -117,7 +130,8 @@ namespace UserAnalyticsService.Service
                 priceSyncRun.ErrorMessage = apiResponseDto.Message;
             }
 
-            priceSyncRun.UpdateTillDate = DateTime.Now; 
+
+          //  priceSyncRun.UpdateTillDate = DateTime.Now; 
             priceSyncRun.ProcessUpdateTillDate = (DateTime)latestPriceSyncDate;
             priceSyncRun.CreatedOn = DateTime.Now;
             priceSyncRun.ModifiedOn = DateTime.Now;

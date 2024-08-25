@@ -21,6 +21,7 @@ namespace StockAnalysis.Web.Service
                 HttpClient client = _httpClientFactory.CreateClient("AnalyticsAPI");
                 HttpRequestMessage message = new();
 
+                client.Timeout = TimeSpan.FromMinutes(20);
 
                 message.Headers.Add("Accept", "application/json");
 

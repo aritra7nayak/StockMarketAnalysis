@@ -29,8 +29,13 @@ namespace DataAcquisitionService.Repository
                                    UpdatedOn = w.ModifiedOn
                                }).ToList();
             SyncPriceResponseViewModel result = new SyncPriceResponseViewModel();
-            result.Data = priceData;
-            result.LastUpdatedDate = (DateTime)priceData.Max(d => d.UpdatedOn);
+            if(priceData != null && priceData.Count !=0)
+            {
+                result.Data = priceData;
+
+                result.LastUpdatedDate = (DateTime)priceData.Max(d => d.UpdatedOn);
+            }
+            
 
             return result;
         }
