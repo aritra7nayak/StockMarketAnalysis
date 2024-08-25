@@ -9,31 +9,8 @@
 
         public List<Stock>? Stocks { get; set; } = new List<Stock>();
 
-        public decimal? BuyValue
-        {
-            get
-            {
-                decimal? totalBuyValue = 0;
-                foreach (var stock in Stocks)
-                {
-                    totalBuyValue += stock.BuyPrice * stock.Quantity;
-                }
-                return totalBuyValue;
-            }
-        }
-
-        public decimal? NowValue
-        {
-            get
-            {
-                decimal? totalNowValue = 0;
-                foreach (var stock in Stocks)
-                {
-                    totalNowValue += stock.PresentPrice * stock.Quantity;
-                }
-                return totalNowValue;
-            }
-        }
+        public decimal? BuyValue { get; set; }
+        public decimal? NowValue { get; set; }
     }
 
     public class Stock

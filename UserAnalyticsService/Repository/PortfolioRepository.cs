@@ -44,6 +44,7 @@ namespace UserAnalyticsService.Repository
                 // Update portfolio in database if any stock was updated
                 if (portfolioUpdated)
                 {
+                    portfolio.UpdateValues();
                     var filter = Builders<Portfolio>.Filter.Eq(p => p.Id, portfolio.Id);
                     await Portfolios.ReplaceOneAsync(filter, portfolio);
                 }

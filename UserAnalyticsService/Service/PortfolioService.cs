@@ -35,6 +35,7 @@ namespace UserAnalyticsService.Service
         // Add a new portfolio
         public async Task AddPortfolio(Portfolio portfolio)
         {
+            portfolio.UpdateValues();
             await _portfolioRepository.Add(portfolio);
         }
 
@@ -44,6 +45,7 @@ namespace UserAnalyticsService.Service
             var result = await _portfolioRepository.Find(p => p.Owner == portfolio.Owner && p.Id == portfolio.Id);
             if (result != null)
             {
+                portfolio.UpdateValues();
                 return await _portfolioRepository.Update(portfolio);
 
             }
