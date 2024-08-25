@@ -1,0 +1,147 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
+</head>
+
+@model Portfolio
+
+@{
+    ViewData["Title"] = "Create Portfolio";
+}
+
+<div class="container">
+    <h2>Create Portfolio</h2>
+
+    <form method="post" asp-action="Create">
+        <div class="form-group">
+            <label for="PortfolioName">Portfolio Name:</label>
+            <input type="text" class="form-control" id="PortfolioName" name="Name" required />
+        </div>
+
+        <h3>Stocks</h3>
+        <div id="stock-list"></div>
+
+        <button type="button" class="btn btn-warning" onclick="addStock()">Add Another Stock</button>
+        <button type="submit" class="btn btn-success">Create Portfolio</button>
+    </form>
+</div>
+
+
+<!-- jQuery, jQuery UI, and Bootstrap JS/CDN links -->
+<!-- jQuery and jQuery UI CDN links -->
+
+
+<!-- Bootstrap CSS -->
+
+
+
+
+<script>
+    var stockIndex = 0;  // Index to keep track of each stock
+
+    // Function to add a new stock row
+    function addStock() {
+        var stockItem = `
+                <div class="stock-item row mb-2">
+                    <div class="col-md-3">
+                        <label>Stock Name:</label>
+                            <input type="text" name="Stocks[${stockIndex}].SecurityName" class="form-control stock-name-autocomplete" required />
+                            <input type="hidden" name="Stocks[${stockIndex}].SecurityId" class="stock-id" />
+                    </div>
+
+                    <div class="col-md-2">
+                        <label>Quantity:</label>
+                        <input type="number" name="Stocks[${stockIndex}].Quantity" class="form-control" required />
+                    </div>
+
+                    <div class="col-md-2">
+                        <label>Buy Price:</label>
+                        <input type="number" step="0.01" name="Stocks[${stockIndex}].BuyPrice" class="form-control" required />
+                    </div>
+
+                    <div class="col-md-2">
+                        <label>Present Price:</label>
+                        <input type="number" step="0.01" name="Stocks[${stockIndex}].PresentPrice" class="form-control" readonly />
+                    </div>
+
+                    <div class="col-md-2 d-flex align-items-end">
+                        <button type="button" class="btn btn-danger remove-stock">Remove</button>
+                    </div>
+                </div>
+            `;
+        $('#stock-list').append(stockItem);
+
+        // Activate autocomplete for the new stock name input
+        activateAutocomplete(stockIndex);
+
+        stockIndex++;
+    }
+
+    // Event delegation for removing stock rows
+    $(document).on('click', '.remove-stock', function () {
+        // Remove the selected row
+        $(this).closest('.stock-item').remove();
+
+        // Re-index the remaining rows
+        $('#stock-list .stock-item').each(function (newIndex) {
+            // Loop through all input fields within the stock-item
+            $(this).find('input').each(function () {
+                // Update 'name' attributes to reflect new index for all input fields
+                var name = $(this).attr('name');
+                var newName = name.replace(/\[\d+\]/, `[${newIndex}]`);
+                $(this).attr('name', newName);
+            });
+        });
+
+        // Decrement stockIndex to keep it in sync
+        stockIndex--;
+    });
+
+    // Function to activate autocomplete for a specific stock item
+    function activateAutocomplete(index) {
+        $(`input[name="Stocks[${index}].SecurityName"]`).autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '/Portfolio/GetSecurityAutoComplete',  // Replace with your autocomplete API URL
+                    method: 'GET',
+                    data: { name: request.term },  // Adjusted parameter name to match API expectation
+                    success: function (data) {
+                        console.log('Autocomplete data:', data); // Debugging
+                        response($.map(data, function (item) {
+                            return {
+                                label: item.label || item.name,  // Use label or name based on API response
+                                value: item.value || item.name,  // Use value or name based on API response
+                                id: item.id,  // Ensure id is returned by API
+                                price: item.price  // Ensure price is returned by API
+                            };
+                        }));
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Autocomplete error:', status, error); // Debugging
+                    }
+                });
+            },
+            select: function (event, ui) {
+                // Fill hidden fields with selected stock's security ID and latest price
+                $(this).closest('.stock-item').find('.stock-id').val(ui.item.id);
+                $(this).closest('.stock-item').find('input[name$="PresentPrice"]').val(ui.item.price);
+            },
+            minLength: 2  // Start autocomplete after 2 characters
+        });
+    }
+
+    // Initialize the first stock row on page load
+    $(document).ready(function () {
+        addStock();
+    });
+</script>

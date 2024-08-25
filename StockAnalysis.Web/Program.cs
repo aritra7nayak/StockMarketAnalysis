@@ -13,13 +13,17 @@ builder.Services.AddHttpClient<IAuthService, AuthService>();
 
 SD.AuthAPIBase = builder.Configuration["ServiceUrls:AuthAPI"];
 SD.DataAcquisition = builder.Configuration["ServiceUrls:DataAcquisition"];
+SD.UserAnalytics = builder.Configuration["ServiceUrls:UserAnalytics"];
 
 
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ISecurityService, SecurityService>();
+builder.Services.AddScoped<ISecuritySyncService, SecuritySyncService>();
+builder.Services.AddScoped<IPriceSyncService, PriceSyncService>();
 builder.Services.AddScoped<IPriceService, PriceService>();
 builder.Services.AddScoped<ISecurityRunService, SecurityRunService>();
 builder.Services.AddScoped<IPriceRunService, PriceRunService>();
+builder.Services.AddScoped<IPortfolioService, PortfolioService>();
 builder.Services.AddScoped<ICorporateActionService, CorporateActionService>();
 builder.Services.AddScoped<ICorporateActionRunService, CorporateActionRunService>();
 builder.Services.AddScoped<ICorporateActionTypeService, CorporateActionTypeService>();

@@ -49,6 +49,9 @@
                                 <li><a class="dropdown-item text-white" asp-controller="CorporateActionTypeRuns" asp-action="Index">Corporate Action Type Runs</a></li>
                                 <li><a class="dropdown-item text-white" asp-controller="CorporateActionRuns" asp-action="Index">Corporate Action Runs</a></li>
                 <li><a class="dropdown-item text-white" asp-controller="PriceRuns" asp-action="Index">Price Runs</a></li>
+                                <li><a class="dropdown-item text-white" asp-controller="SecuritySync" asp-action="Index">Security Sync</a></li>
+                                <li><a class="dropdown-item text-white" asp-controller="PriceSync" asp-action="Index">Price Sync</a></li>
+
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="#">Something else here</a></li>
             </ul>
@@ -95,6 +98,11 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
