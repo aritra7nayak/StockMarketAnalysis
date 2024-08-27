@@ -46,6 +46,7 @@ builder.Services.AddScoped(sp =>
 // Register MongoDB and repositories
 builder.Services.AddSingleton<DBContext>();
 builder.Services.AddScoped<IPortfolioRepository, PortfolioRepository>();
+builder.Services.AddScoped<IBankDepositRepository, BankDepositRepository>();
 builder.Services.AddScoped<ISecuritySyncRepository, SecuritySyncRepository>();
 builder.Services.AddScoped<ISecuritySyncRunRepository, SecuritySyncRunRepository>();
 builder.Services.AddScoped<IPriceSyncRunRepository,PriceSyncRunRepository>();
@@ -53,6 +54,7 @@ builder.Services.AddScoped<IPriceSyncRepository,PriceSyncRepository>();
 builder.Services.AddScoped<ILatestSyncProcessDetailRepository,LatestSyncProcessDetailRepository>();
 builder.Services.AddScoped<ISyncProcess, SyncProcess>();
 builder.Services.AddScoped<PortfolioService>();
+builder.Services.AddScoped<BankDepositService>();
 
 
 builder.Services.AddEndpointsApiExplorer();
