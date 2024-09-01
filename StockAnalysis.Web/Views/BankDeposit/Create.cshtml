@@ -66,32 +66,35 @@
                             <input type="number" step="0.01" name="InvestmentDetails[${investmentIndex}].InterestRate" class="form-control" required />
                         </div>
 
-                            <div class="col-md-2">
-                        <label>Duration:</label>
-                        <input type="number" name="InvestmentDetails[${investmentIndex}].Duration" class="form-control" required />
-                    </div>
-                    <div class="col-md-2">
-                        <label>Duration Type:</label>
-                        <select name="InvestmentDetails[${investmentIndex}].DurationType" class="form-control">
+                        <div class="col-md-2">
+                            <label>Duration:</label>
+                            <input type="number" name="InvestmentDetails[${investmentIndex}].Duration" class="form-control" required />
+                        </div>
+
+                        <div class="col-md-2">
+                            <label>Duration Type:</label>
+                            <select name="InvestmentDetails[${investmentIndex}].DurationType" class="form-control">
     @foreach (var duration in Html.GetEnumSelectList<DurationType>())
     {
-                                    <option value="@duration.Value">@duration.Text</option>
+                                        <option value="@duration.Value">@duration.Text</option>
     }
-                        </select>
-                    </div>
-                    <div class="col-md-2">
-                        <label>FD Type:</label>
-                        <select name="InvestmentDetails[${investmentIndex}].FDType" class="form-control">
+                            </select>
+                        </div>
+
+                        <div class="col-md-2">
+                            <label>FD Type:</label>
+                            <select name="InvestmentDetails[${investmentIndex}].FDType" class="form-control">
     @foreach (var fdType in Html.GetEnumSelectList<FDType>())
     {
-                                    <option value="@fdType.Value">@fdType.Text</option>
+                                        <option value="@fdType.Value">@fdType.Text</option>
     }
-                        </select>
-                    </div>
-                    <div class="col-md-2">
-                        <label>Start Date:</label>
-                        <input type="date" name="InvestmentDetails[${investmentIndex}].StartDate" class="form-control" required />
-                    </div>
+                            </select>
+                        </div>
+
+                        <div class="col-md-2">
+                            <label>Start Date:</label>
+                            <input type="date" name="InvestmentDetails[${investmentIndex}].StartDate" class="form-control" required />
+                        </div>
 
                         <div class="col-md-2 d-flex align-items-end">
                             <button type="button" class="btn btn-danger remove-investment">Remove</button>
@@ -103,8 +106,20 @@
         investmentIndex++;
     }
 
+    function updateIndices() {
+        $('#investment-list .investment-item').each(function (index) {
+            $(this).find('select[name^="InvestmentDetails"], input[name^="InvestmentDetails"]').each(function () {
+                var name = $(this).attr('name');
+                var updatedName = name.replace(/\[\d+\]/, '[' + index + ']');
+                $(this).attr('name', updatedName);
+            });
+        });
+        investmentIndex = $('#investment-list .investment-item').length;
+    }
+
     $(document).on('click', '.remove-investment', function () {
         $(this).closest('.investment-item').remove();
+        updateIndices();
     });
 
     $(document).ready(function () {

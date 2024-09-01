@@ -1,0 +1,178 @@
+﻿@model BankDeposit
+@using System.Web
+@using Newtonsoft.Json
+
+@{
+    ViewData["Title"] = "Edit Bank Deposit";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h2>Edit Bank Deposit</h2>
+
+        <form method="post" asp-action="Edit">
+            <input type="hidden" asp-for="Id" />
+
+            <div class="form-group">
+                <label for="DepositName">Deposit Name:</label>
+                <input type="text" class="form-control" id="DepositName" name="Name" value="@Model.Name" required />
+            </div>
+
+            <h3>Investment Details</h3>
+            <div id="investment-list">
+                @for (var i = 0; i < Model.InvestmentDetails.Count; i++)
+                {
+                    <div class="investment-item row mb-2">
+                        <div class="col-md-3">
+                            <label>Bank Name:</label>
+                            @Html.DropDownListFor(m => m.InvestmentDetails[i].BankName, Html.GetEnumSelectList<BankNameEnum>(), new { @class = "form-control" })
+                        </div>
+
+                        <div class="col-md-2">
+                            <label>Account Number:</label>
+                            <input type="text" name="InvestmentDetails[@i].AccountNumber" class="form-control" value="@Model.InvestmentDetails[i].AccountNumber" required />
+                        </div>
+
+                        <div class="col-md-2">
+                            <label>Principal Amount:</label>
+                            <input type="number" name="InvestmentDetails[@i].PrincipalAmount" class="form-control" value="@Model.InvestmentDetails[i].PrincipalAmount" required />
+                        </div>
+
+                        <div class="col-md-2">
+                            <label>Interest Rate:</label>
+                            <input type="number" step="0.01" name="InvestmentDetails[@i].InterestRate" class="form-control" value="@Model.InvestmentDetails[i].InterestRate" required />
+                        </div>
+
+                        <div class="col-md-2">
+                            <label>Duration:</label>
+                            <input type="number" name="InvestmentDetails[@i].Duration" class="form-control" value="@Model.InvestmentDetails[i].Duration" required />
+                        </div>
+
+                        <div class="col-md-2">
+                            <label>Duration Type:</label>
+                            @Html.DropDownListFor(m => m.InvestmentDetails[i].DurationType, Html.GetEnumSelectList<DurationType>(), new { @class = "form-control" })
+                        </div>
+
+                        <div class="col-md-2">
+                            <label>FD Type:</label>
+                            @Html.DropDownListFor(m => m.InvestmentDetails[i].FDType, Html.GetEnumSelectList<FDType>(), new { @class = "form-control" })
+                        </div>
+
+                        <div class="col-md-2">
+                            <label>Start Date:</label>
+                            <input type="date" name="InvestmentDetails[@i].StartDate" class="form-control" value="@Model.InvestmentDetails[i].StartDate.ToString("yyyy-MM-dd")" required />
+                        </div>
+
+                        <div class="col-md-2 d-flex align-items-end">
+                            <button type="button" class="btn btn-danger remove-investment">Remove</button>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <button type="button" class="btn btn-warning" onclick="addInvestment()">Add Another Investment</button>
+            <button type="submit" class="btn btn-success">Update Deposit</button>
+        </form>
+    </div>
+
+    <script>
+        var investmentIndex = @Model.InvestmentDetails?.Count ?? 0;
+
+        function addInvestment() {
+            var investmentItem = `
+                    <div class="investment-item row mb-2" data-index="${investmentIndex}">
+                        <div class="col-md-3">
+                            <label>Bank Name:</label>
+                            <select name="InvestmentDetails[${investmentIndex}].BankName" class="form-control">
+                                ${generateOptions(@Html.Raw(JsonConvert.SerializeObject(Html.GetEnumSelectList<BankNameEnum>())), '')}
+                            </select>
+                        </div>
+
+                        <div class="col-md-2">
+                            <label>Account Number:</label>
+                            <input type="text" name="InvestmentDetails[${investmentIndex}].AccountNumber" class="form-control" required />
+                        </div>
+
+                        <div class="col-md-2">
+                            <label>Principal Amount:</label>
+                            <input type="number" name="InvestmentDetails[${investmentIndex}].PrincipalAmount" class="form-control" required />
+                        </div>
+
+                        <div class="col-md-2">
+                            <label>Interest Rate:</label>
+                            <input type="number" step="0.01" name="InvestmentDetails[${investmentIndex}].InterestRate" class="form-control" required />
+                        </div>
+
+                        <div class="col-md-2">
+                            <label>Duration:</label>
+                            <input type="number" name="InvestmentDetails[${investmentIndex}].Duration" class="form-control" required />
+                        </div>
+
+                        <div class="col-md-2">
+                            <label>Duration Type:</label>
+                            <select name="InvestmentDetails[${investmentIndex}].DurationType" class="form-control">
+                                ${generateOptions(@Html.Raw(JsonConvert.SerializeObject(Html.GetEnumSelectList<DurationType>())), '')}
+                            </select>
+                        </div>
+
+                        <div class="col-md-2">
+                            <label>FD Type:</label>
+                            <select name="InvestmentDetails[${investmentIndex}].FDType" class="form-control">
+                                ${generateOptions(@Html.Raw(JsonConvert.SerializeObject(Html.GetEnumSelectList<FDType>())), '')}
+                            </select>
+                        </div>
+
+                        <div class="col-md-2">
+                            <label>Start Date:</label>
+                            <input type="date" name="InvestmentDetails[${investmentIndex}].StartDate" class="form-control" required />
+                        </div>
+
+                        <div class="col-md-2 d-flex align-items-end">
+                            <button type="button" class="btn btn-danger remove-investment">Remove</button>
+                        </div>
+                    </div>
+                `;
+            $('#investment-list').append(investmentItem);
+            investmentIndex++;
+        }
+
+        $(document).on('click', '.remove-investment', function () {
+            $(this).closest('.investment-item').remove();
+            updateInvestmentIndices();
+        });
+
+        function updateInvestmentIndices() {
+            investmentIndex = 0;
+            $('#investment-list .investment-item').each(function () {
+                var newIndex = investmentIndex++;
+                $(this).attr('data-index', newIndex);
+                $(this).find('select, input').each(function () {
+                    var name = $(this).attr('name');
+                    if (name) {
+                        var newName = name.replace(/\[\d+\]/, `[${newIndex}]`);
+                        $(this).attr('name', newName);
+                    }
+                });
+            });
+        }
+
+        function generateOptions(options, selectedValue) {
+            var htmlOptions = '';
+            options.forEach(function (option) {
+                var isSelected = option.Value === selectedValue ? 'selected' : '';
+                htmlOptions += `<option value="${option.Value}" ${isSelected}>${option.Text}</option>`;
+            });
+            return htmlOptions;
+        }
+    </script>
+</body>
+</html>
