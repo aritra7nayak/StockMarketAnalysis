@@ -15,6 +15,23 @@ namespace StockAnalysis.Web.Controllers
             _bankDepositService = bankDepositService;
         }
 
+
+        public async Task<IActionResult> Details(Guid id)
+        {
+            BankDeposit list = new();
+            var bankDeposit = await _bankDepositService.GetBankDepositByIdAsync(id);
+            if (bankDeposit != null && bankDeposit.IsSuccess)
+            {
+
+                list = JsonConvert.DeserializeObject<BankDeposit>(Convert.ToString(bankDeposit.Result));
+            }
+            else
+            {
+                TempData["error"] = bankDeposit?.Message;
+            }
+            return View(list);
+        }
+
         public async Task<IActionResult> Index()
         {
             List<BankDeposit>? list = new();

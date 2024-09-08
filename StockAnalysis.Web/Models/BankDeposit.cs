@@ -31,7 +31,7 @@ namespace StockAnalysis.Web.Models
 
         // Automatically computed maturity date based on start date and duration
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
-        public DateTime? MaturityDate { get; private set; }
+        public DateTime? MaturityDate { get; set; }
 
         // Number of days, months, or years for which the FD is made
         public int Duration { get; set; }
@@ -42,10 +42,10 @@ namespace StockAnalysis.Web.Models
         // Enum to specify if the FD is cumulative or non-cumulative
         public FDType FDType { get; set; }
 
-        public decimal? InterestEarned { get; private set; }
+        public decimal? InterestEarned { get; set; }
 
         // Automatically computed maturity amount
-        public decimal? MaturityAmount { get; private set; }
+        public decimal? MaturityAmount { get; set; }
 
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime StartDate { get; set; }
