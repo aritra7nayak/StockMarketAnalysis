@@ -1,8 +1,76 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <!-- Portfolio Card -->
+        <div class="col-md-5 mx-2">
+            <a href="/portfolio" style="text-decoration: none;">
+                <div class="card text-white bg-gradient-primary mb-4 shadow-lg" style="cursor: pointer; border-radius: 20px;">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="card-title mb-0">Portfolio</h5>
+                            <i class="fas fa-chart-line fa-2x"></i>
+                        </div>
+                        <hr>
+                        <p><strong>Invested:</strong> <span id="portfolio-invested">₹0</span></p>
+                        <p><strong>Current:</strong> <span id="portfolio-current">₹0</span></p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Bank Card -->
+        <div class="col-md-5 mx-2">
+            <a href="/bankDeposit" style="text-decoration: none;">
+                <div class="card text-white bg-gradient-success mb-4 shadow-lg" style="cursor: pointer; border-radius: 20px;">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="card-title mb-0">Bank</h5>
+                            <i class="fas fa-university fa-2x"></i>
+                        </div>
+                        <hr>
+                        <p><strong>Invested:</strong> <span id="bank-invested">₹0</span></p>
+                        <p><strong>Maturity:</strong> <span id="bank-maturity">₹0</span></p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
 </div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Fetch Portfolio Details
+            $.ajax({
+                url: '/api/portfolio/details',
+                type: 'GET',
+                success: function (data) {
+                    $('#portfolio-invested').text('₹' + data.invested);
+                    $('#portfolio-current').text('₹' + data.current);
+                },
+                error: function () {
+                    alert('Failed to load portfolio details.');
+                }
+            });
+
+            // Fetch Bank Details
+            $.ajax({
+                url: '/api/bank/details',
+                type: 'GET',
+                success: function (data) {
+                    $('#bank-invested').text('₹' + data.invested);
+                    $('#bank-maturity').text('₹' + data.maturity);
+                },
+                error: function () {
+                    alert('Failed to load bank details.');
+                }
+            });
+        });
+    </script>
+}
