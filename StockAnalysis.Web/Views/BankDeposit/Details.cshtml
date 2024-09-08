@@ -1,0 +1,71 @@
+﻿@model BankDeposit
+
+@{
+    ViewData["Title"] = "Bank Deposit Details";
+}
+
+<h2>Bank Deposit Details</h2>
+
+<div>
+    <h4>@Model.Name</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">Owner</dt>
+        <dd class="col-sm-10">@Model.Owner</dd>
+
+        <dt class="col-sm-2">Total Principal Value</dt>
+        <dd class="col-sm-10">@Model.TotalPrincipalValue?.ToString("C")</dd>
+
+        <dt class="col-sm-2">Total Maturity Amount</dt>
+        <dd class="col-sm-10">@Model.TotalMaturityAmount?.ToString("C")</dd>
+    </dl>
+</div>
+
+@if (Model.InvestmentDetails != null && Model.InvestmentDetails.Any())
+{
+    <h4>Investment Details</h4>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>FD Id</th>
+                <th>Bank Name</th>
+                <th>Account Number</th>
+                <th>Principal Amount</th>
+                <th>Interest Rate (%)</th>
+                <th>Start Date</th>
+                <th>Duration</th>
+                <th>FD Type</th>
+                <th>Maturity Date</th>
+                <th>Interest Earned</th>
+                <th>Maturity Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var detail in Model.InvestmentDetails)
+            {
+                <tr>
+                    <td>@detail.FDId</td>
+                    <td>@detail.BankName</td>
+                    <td>@detail.AccountNumber</td>
+                    <td>@detail.PrincipalAmount.ToString("C")</td>
+                    <td>@detail.InterestRate</td>
+                    <td>@detail.StartDate.ToShortDateString()</td>
+                    <td>@detail.Duration @detail.DurationType</td>
+                    <td>@detail.FDType</td>
+                    <td>@detail.MaturityDate?.ToShortDateString()</td>
+                    <td>@detail.InterestEarned?.ToString("C")</td>
+                    <td>@detail.MaturityAmount?.ToString("C")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No investment details available.</p>
+}
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a> |
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+</div>

@@ -24,6 +24,7 @@ builder.Services.AddScoped<IPriceService, PriceService>();
 builder.Services.AddScoped<ISecurityRunService, SecurityRunService>();
 builder.Services.AddScoped<IPriceRunService, PriceRunService>();
 builder.Services.AddScoped<IPortfolioService, PortfolioService>();
+builder.Services.AddScoped<IBankDepositService, BankDepositService>();
 builder.Services.AddScoped<ICorporateActionService, CorporateActionService>();
 builder.Services.AddScoped<ICorporateActionRunService, CorporateActionRunService>();
 builder.Services.AddScoped<ICorporateActionTypeService, CorporateActionTypeService>();

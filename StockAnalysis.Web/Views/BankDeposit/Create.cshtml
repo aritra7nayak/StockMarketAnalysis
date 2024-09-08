@@ -1,0 +1,128 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
+</head>
+
+@model Portfolio
+
+@{
+    ViewData["Title"] = "Create Bank Deposit";
+}
+<div class="container">
+    <h2>Create Bank Deposit</h2>
+
+    <form method="post" asp-action="Create">
+        <div class="form-group">
+            <label for="DepositName">Deposit Name:</label>
+            <input type="text" class="form-control" id="DepositName" name="Name" required />
+        </div>
+
+        <h3>Investment Details</h3>
+        <div id="investment-list"></div>
+
+        <button type="button" class="btn btn-warning" onclick="addInvestment()">Add Another Investment</button>
+        <button type="submit" class="btn btn-success">Create Deposit</button>
+    </form>
+</div>
+
+<script>
+    var investmentIndex = 0;
+
+    function addInvestment() {
+        var investmentItem = `
+                    <div class="investment-item row mb-2">
+                        <div class="col-md-3">
+                            <label>Bank Name:</label>
+                            <select name="InvestmentDetails[${investmentIndex}].BankName" class="form-control">
+    @foreach (var bank in Html.GetEnumSelectList<BankNameEnum>())
+    {
+                                        <option value="@bank.Value">@bank.Text</option>
+    }
+                            </select>
+                        </div>
+
+                        <div class="col-md-2">
+                            <label>Account Number:</label>
+                            <input type="text" name="InvestmentDetails[${investmentIndex}].AccountNumber" class="form-control" required />
+                        </div>
+
+                        <div class="col-md-2">
+                            <label>Principal Amount:</label>
+                            <input type="number" name="InvestmentDetails[${investmentIndex}].PrincipalAmount" class="form-control" required />
+                        </div>
+
+                        <div class="col-md-2">
+                            <label>Interest Rate:</label>
+                            <input type="number" step="0.01" name="InvestmentDetails[${investmentIndex}].InterestRate" class="form-control" required />
+                        </div>
+
+                        <div class="col-md-2">
+                            <label>Duration:</label>
+                            <input type="number" name="InvestmentDetails[${investmentIndex}].Duration" class="form-control" required />
+                        </div>
+
+                        <div class="col-md-2">
+                            <label>Duration Type:</label>
+                            <select name="InvestmentDetails[${investmentIndex}].DurationType" class="form-control">
+    @foreach (var duration in Html.GetEnumSelectList<DurationType>())
+    {
+                                        <option value="@duration.Value">@duration.Text</option>
+    }
+                            </select>
+                        </div>
+
+                        <div class="col-md-2">
+                            <label>FD Type:</label>
+                            <select name="InvestmentDetails[${investmentIndex}].FDType" class="form-control">
+    @foreach (var fdType in Html.GetEnumSelectList<FDType>())
+    {
+                                        <option value="@fdType.Value">@fdType.Text</option>
+    }
+                            </select>
+                        </div>
+
+                        <div class="col-md-2">
+                            <label>Start Date:</label>
+                            <input type="date" name="InvestmentDetails[${investmentIndex}].StartDate" class="form-control" required />
+                        </div>
+
+                        <div class="col-md-2 d-flex align-items-end">
+                            <button type="button" class="btn btn-danger remove-investment">Remove</button>
+                        </div>
+                    </div>
+                `;
+        $('#investment-list').append(investmentItem);
+
+        investmentIndex++;
+    }
+
+    function updateIndices() {
+        $('#investment-list .investment-item').each(function (index) {
+            $(this).find('select[name^="InvestmentDetails"], input[name^="InvestmentDetails"]').each(function () {
+                var name = $(this).attr('name');
+                var updatedName = name.replace(/\[\d+\]/, '[' + index + ']');
+                $(this).attr('name', updatedName);
+            });
+        });
+        investmentIndex = $('#investment-list .investment-item').length;
+    }
+
+    $(document).on('click', '.remove-investment', function () {
+        $(this).closest('.investment-item').remove();
+        updateIndices();
+    });
+
+    $(document).ready(function () {
+        addInvestment();
+    });
+</script>
